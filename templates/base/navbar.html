@@ -1,0 +1,57 @@
+{% load static %}
+<header class="header header-sticky mb-4 app-header navbar">
+        <a class="navbar-brand" href="#" style="height: 55px">
+        </a>
+
+    <hr class="horizontal dark my-3">
+    <ul class="nav navbar-nav ml-auto ml-sm-auto ms-3">
+        {% if user.is_authenticated %}
+        <p class="mb-0 d-none d-lg-block">Bem-vindo(a) <strong>{{ user.first_name|capfirst }}</strong></p>
+        {% endif %}
+        <li class="nav-item dropdown col-md-3 col-lg-2">
+            <a class="nav-link py-0" data-toggle="dropdown" href="#" role="button" aria-haspopup="true"
+               aria-expanded="false">
+
+                <div class="avatar avatar-md">
+                    <img src="{% static '/dist/img/avatars/avatar_profile.png' %}"
+                         class="img-avatar" alt="avatar_profile">
+                </div>
+            </a>
+            <div class="dropdown-menu dropdown-menu-right pt-0">
+
+                <div class="dropdown-header text-center">
+                    <strong>Conta</strong>
+                </div>
+                {% if user.is_superuser %}
+                <a class="dropdown-item" target="_blank" href="{% url 'admin:index' %}">
+                    <i class="fa fa-gears"></i>Administrador
+                </a>
+                <a class="dropdown-item">
+                    <i class="fa fa-clock"></i>
+                    Ultimo login {{ user.last_login |date:"d/m/Y h:m" }}
+                </a>
+                {% else %}
+                <a class="dropdown-item">
+                    <i class="fa fa-clock"></i>
+                    Ultimo login {{ user.last_login |date:"d/m/Y h:m" }}
+                </a>
+                {% endif %}
+                <div class="dropdown-header text-center">
+                    <strong>Settings</strong>
+                </div>
+
+                <a class="dropdown-item" href="{% url 'user_profile' %}">
+                    <i class="fa fa-user"></i>Perfil</a>
+                <a class="dropdown-item" href="#">
+                    <i class="fa fa-wrench"></i> Settings</a>
+                <a class="dropdown-item" href="#">
+                    <i class="fa fa-usd"></i> Payments
+                    <span class="badge badge-secondary">42</span></a>
+                <a class="dropdown-item" href="{% url 'logout' %}"><i class="fa fa-lock"></i>Logout</a>
+            </div>
+        </li>
+    </ul>
+    {% block navbar %} {% endblock %}
+
+</header>
+

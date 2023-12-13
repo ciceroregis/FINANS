@@ -1,0 +1,19 @@
+{% extends 'base/base.html' %}
+{% block titulo %}Remover Conta Bancária | {% endblock %}
+{% load static %}
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h1>Remover conta bancária</h1>
+            <p>Tem certeza que deseja remover a conta bancária?</p>
+            <form method="post">
+                {% csrf_token %}
+                <input name="account_id" type="hidden" value="{{ account_id }}">
+                <button class="btn btn-danger" name="confirm" type="submit" value="yes">Sim</button>
+                <button class="btn btn-secondary" name="confirm" type="submit" value="no">Não</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

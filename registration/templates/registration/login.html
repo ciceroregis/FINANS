@@ -1,0 +1,53 @@
+<title>Login | FINANS</title>
+{% load static %}
+{% block css %}
+
+<link href="{% static 'dist/css/login.css' %}" rel="stylesheet">
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+
+{% endblock %}
+
+{% block body %}
+<div class="container mt-5 container-card">
+    <div class="row justify-content-center">
+        <div class="col-12 col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <h2 class="text-center mb-4">FINANS</h2>
+                    <p class="text-center">Gerencie suas finanças pessoais de forma fácil e eficiente.</p>
+                    {% if form.errors %}
+                    <div class="form-error">
+                        Desculpe, seu nome de usuário e senha estão incorretos - por favor, tente novamente.
+                    </div>
+                    {% endif %}
+                    <form action="{% url 'login' %}" method="POST">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <label for="username">Usuário</label>
+                            <input autofocus class="form-control" id="username" name="username" placeholder="Usuário"
+                                   required type="text">
+                        </div>
+                        <div class="form-group">
+                            <label for="password">Senha</label>
+                            <input class="form-control" id="password" name="password" placeholder="Senha"
+                                   required type="password">
+                        </div>
+
+                        <div class="form-group text-center">
+                            <button class="btn btn-primary" id="login-button" type="submit">Logar</button>
+                        </div>
+                        <div class="form-group text-center">
+                            <a class="text-secondary" href="{% url 'register' %}">Criar uma nova conta</a>
+                        </div>
+                        <div class="form-group text-center">
+                            <a class="text-secondary" href="{% url 'password_reset' %}">Esqueci minha senha</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="{% static 'dist/js/login.js' %}"></script>
+{% endblock %}

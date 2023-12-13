@@ -1,0 +1,75 @@
+{% extends 'base/base.html' %}
+{% block titulo %}Mais Detalhes | {% endblock %}
+{% load static %}
+
+{% block content %}
+
+<link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.0.8/css/all.css"
+      integrity="sha384-3AB7yXWz4OeoZcPbieVW64vVXEwADiYyAEhwilzWsLw+9FgqpyjjStpPnpBO8o8S" rel="stylesheet">
+
+<div class="container">
+    <div class="col-md-12">
+        {% include 'base/messages.html' %}
+        <a class="btn btn-primary" href="{% url 'home' %}">
+            <li class="fa fa-arrow-left"></li> Voltar</a>
+        <div class="card mt-5">
+            <div class="card-header">
+                <h4><strong>{{account.bank}}</strong></h4>
+                {% if account.archived %}
+                    <span class="text-danger">Está conta foi arquivada. Para atualizar ou excluir voçê deverá
+                        desarquiva-la.
+                    </span>
+                {% endif %}
+            </div>
+            <div class="card-body {% if  account.archived %}bg-light {% endif%}">
+                <ul class="pl-1 list-group" style="list-style: none;">
+                    <li class="text-muted">Nome da conta: <span class="bold">{{account.bank}}</span></li>
+                    <li class="text-muted">Tipo de conta: <span class="bold">{{account.type.name}}</span></li>
+                    <li class="text-muted">Saldo Inicial: <span class="bold">{{account.amount}}</span></li>
+                    <li class="text-muted">Quantidade de despesas:
+                        {% if num_expenses == 0 %}
+                            <span class="badge badge-danger badge-pill">{{num_expenses}}</span>
+                        {% else %}
+                            <span class="badge badge-danger badge-pill">{{num_expenses}}</span>
+                        {% endif %}
+                    </li>
+                    <li class="text-muted">Quantidade de receitas:
+                        {% if num_incomes == 0 %}
+                            <span class="badge badge-success badge-pill">{{num_incomes}}</span>
+                        {% else %}
+                            <span class="badge badge-success badge-pill">{{num_incomes}}</span>
+                        {% endif %}
+                    </li>
+                    <li class="text-muted"> Arquivado: {% if account.archived %} <span
+                            class="badge badge-success">Sim</span>
+                        {% else %} <span class="badge badge-danger">Não</span>{% endif %}
+
+                        {% if not account.archived %}
+                            <a class="btn btn-primary  btn-sm"
+                           href="{% url 'archive_bank_account' account.id %}" title="Arquivar Conta">
+                              <i class="fa fa-check"></i>  Arquivar Conta
+                            </a>
+                        {% else %}
+                            <a class="btn btn-danger fa fa-times-circle btn-sm"
+                           href="{% url 'archive_bank_account' account.id %}" title="Desarquivar Conta">
+                                Desarquivar Conta
+                            </a>
+                        {% endif %}
+                    </li>
+                    <li class="text-muted">Criação: <span class="bold">
+                        {{account.created_at |date:"d/m/Y"}}</span>
+                    </li>
+                    <li class="text-muted">Modificação: <span class="bold">
+                        {{account.updated_at |date:"d/m/Y"}}</span>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-sm-12 mb-2">
+                <a class="btn btn-primary {% if account.archived %} disabled {%endif%}"
+                   href="{% url 'update_bank_account' account.id %}" title="Atualizar Minha Conta">
+                    <i class="fa fa-edit"></i> Atualizar Minha Conta</a>
+            </div>
+        </div>
+    </div>
+    {% endblock %}
+</div>

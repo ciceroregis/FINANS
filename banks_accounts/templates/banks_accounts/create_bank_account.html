@@ -1,0 +1,73 @@
+{% extends 'base/base.html' %}
+{% block title %}
+{% if title == 'Editar Conta' %}
+Editar Lançamento
+{% else %}
+Cadastrar Conta
+{% endif %} |{% endblock title %}
+{% load static %}
+{% load filters %}
+{% block content %}
+
+
+<a class="btn btn-primary ml-5" href="{% url 'home' %}" style="margin-left:20px">
+    <i class="fa fa-arrow-left" type="button"></i> Voltar</a>
+<div class="row">
+    <div class="col-12">
+        <div class="card ml-5 mr-5 mt-5">
+            <div class="card-header text-muted">
+                <h4>
+                    {% if title == 'Editar Conta' %}
+                    Editar Conta
+                    {% else %}
+                    Cadastrar Conta
+                    {% endif %}
+                </h4>
+            </div>
+            <div class="card-body">
+                <form method='POST' novalidate>
+                    {% csrf_token %}
+
+                    <div class="col-md-12">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="form-group">
+                                    {{ form.bank}}
+                                </div>
+                                <p><small class="form-text text-danger">{{form.bank.errors}}</small></p>
+                            </div>
+
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label class="sr-only">Descricao da conta</label>
+                                    {{ form.description|add_css_classes_if_invalid:"form-control" }}
+                                </div>
+                                <p><small class="form-text text-danger">{{form.description.errors}}</small></p>
+                            </div>
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label class="sr-only">Tipo da conta</label>
+                                    {{ form.type|add_css_classes_if_invalid:"form-control" }}
+                                </div>
+                                <p><small class="form-text text-danger">{{form.type.errors}}</small></p>
+                            </div>
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label class="sr-only">Saldo Inicial</label>
+                                    {{ form.amount|add_css_classes_if_invalid:"form-control" }}
+                                </div>
+                                <p><small class="form-text text-danger">{{form.amount.errors}}</small></p>
+                            </div>
+                            <div class="form-check ml-4">
+                                <div class="ml-3"> {{ form.main }}</div>
+                                <label class="ml-3">Principal</label>
+                            </div>
+                        </div>
+                        <button class='btn btn-success mt-5' type='submit'><i class="fa fa-save"></i> Salvar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

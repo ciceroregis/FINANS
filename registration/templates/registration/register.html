@@ -1,0 +1,84 @@
+{% load static %}
+{% block title %}Cadastrar Nova Conta |{% endblock title %}
+{% block css %}
+
+    <link href="{% static 'dist/css/login.css' %}" rel="stylesheet">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+
+{% endblock %}
+{% block body %}
+    <div class="container mt-5 container-card">
+        <div class="row justify-content-center">
+            <div class="col-12 col-md-6">
+                <div class="card mb-4 mx-4 wrapper fadeInDown">
+                    <div class="card-body p-4">
+                        <h2 class="text-center mb-4">Cadastrar uma nova Conta</h2>
+                        <p class="text-center">
+                            {% if msg %}
+                                {{ msg | safe }}
+                            {% else %}
+                                Preencha o formulário para cadastrar a conta
+                            {% endif %}
+                        </p>
+
+                        <form action="" method="post" role="form">
+
+                            {% csrf_token %}
+
+                            <!-- Text input-->
+                            <div class="form-group">
+                                <div class="col-md-12 mb-3">
+                                    {{ form.first_name }}
+                                    <span class="text-error text-danger">{{ form.first_name.errors }}</span>
+                                </div>
+
+                                <!-- Text input-->
+                                <div class="form-group">
+                                    <div class="col-md-12 mb-3">
+                                        {{ form.username }}
+                                    </div>
+                                    <span class="text-error text-danger">{{ form.username.errors }}</span>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-md-12 mb-3">
+                                        {{ form.email }}
+                                    </div>
+                                    <span class="text-error text-danger">{{ form.email.errors }}</span>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-md-12 mb-3">
+                                        {{ form.password1 }}
+                                    </div>
+                                    <span class="text-error text-danger">{{ form.password1.errors }}</span>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-md-12 mb-3">
+                                        {{ form.password2 }}
+                                    </div>
+                                    <span class="text-error text-danger">{{ form.password2.errors }}</span>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-6" style="margin-left: 15px">
+                                        <button class="btn btn-block btn-success text-white" name="register"
+                                                type="submit" id="register-button">Cadastrar Conta
+                                        </button>
+                                    </div>
+                                    <div class="col-3 text-end">
+                                        <a class="btn btn-info px-6 text-white" href="{% url 'login' %}"
+                                           type="button">Login</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="{% static 'dist/js/register-form.js' %}"></script>
+{% endblock %}

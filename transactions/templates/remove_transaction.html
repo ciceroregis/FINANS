@@ -1,0 +1,19 @@
+{% extends 'base/base.html' %}
+{% block titulo %}Remover Lançamento | {% endblock %}
+{% load static %}
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h1>Remover Lançamento</h1>
+            <p>Tem certeza que deseja remover este lançamento?</p>
+            <form method="post">
+                {% csrf_token %}
+                <input name="transaction_id" type="hidden" value="{{ transaction_id }}">
+                <button class="btn btn-danger" name="confirm" type="submit" value="yes">Sim</button>
+                <button class="btn btn-secondary" name="confirm" type="submit" value="no">Não</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

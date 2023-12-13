@@ -1,0 +1,12 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block titulo %}Dashboard | {% endblock %}
+{% block content %}
+    {% include 'dashboard/dashboard.html' %}
+    {% include 'banks_accounts/bank_account_list.html' %}
+
+{% endblock %}
+
+
+

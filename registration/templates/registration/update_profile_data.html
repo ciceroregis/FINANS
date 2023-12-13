@@ -1,0 +1,53 @@
+{% extends 'base/base.html' %}
+{% block title %}Atualizar Perfil |{% endblock title %}
+{% load static %}
+{% block content %}
+{% block css %}
+    <link rel="stylesheet" type="text/css" href="{% static 'dist/css/style.css' %}">
+
+<link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.0.8/css/all.css"
+      integrity="sha384-3AB7yXWz4OeoZcPbieVW64vVXEwADiYyAEhwilzWsLw+9FgqpyjjStpPnpBO8o8S" rel="stylesheet">
+{% endblock %}
+
+<div class="col">
+    <a class="btn btn-primary ml-1 mb-5" href="{% url 'user_profile' %}">
+        <i class="fa fa-arrow-left" type="button"></i> Voltar</a>
+    <div class="card">
+        <div class="card-header">
+            Atualizar meus dados pessoais
+        </div>
+        <div class="card-body">
+            <form action="" method="POST">
+                {% csrf_token %}
+                <div class="row">
+                    <div class="form-group col-md-4">
+                        <label>Nome</label>
+                        {{form.first_name}}
+                    </div>
+
+                    <div class="form-group col-md-4">
+                        <label>E-mail</label>
+                        {{form.email}}
+                    </div>
+
+                    <div class="form-group col-md-2">
+                        <label>username</label>
+                        {{form.username}}
+                    </div>
+
+                </div>
+
+
+                <div class="row" id="actions">
+                    <div class="col-md-12">
+                        <button class='btn btn-success ' type='submit'><i class="fa fa-save"></i> Salvar</button>
+                        <a class="btn btn-primary" href="{% url 'password_reset' %}">
+                            <li class="fa fa-key mr-2"></li>
+                            Alterar Senha</a>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

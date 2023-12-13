@@ -1,0 +1,78 @@
+{% extends 'base/base.html' %}
+{% block title %}Minhas informações pessoais |{% endblock title %}
+{% load static %}
+{% block content %}
+{% block css %}
+
+{% endblock %}
+<div class="col">
+    {% if messages %}
+    {% for message in messages %}
+    <div class="alert alert-success mt-2" role="alert">
+        {{ message }}
+    </div>
+    {% endfor %}
+    {% endif %}
+            <a class="btn btn-primary ml-1 mb-5" href="{% url 'home' %}">
+                 <i class="fa fa-arrow-left" type="button"></i> Voltar</a>
+<div class="card">
+    <h5 class="card-header">
+        Minhas informações pessoais
+    </h5>
+    <div class="card-body">
+        <div class="d-flex rounded">
+            <div class="p-0">
+                <img class="img-thumbnail border-0"
+                     height="10"
+                     src="{% static '/dist/img/avatars/avatar_profile.png' %}"
+                     alt="avatar_profile"
+                     style="border-radius: 50%; background-color: #1061b3"
+                     width="200">
+                    </div>
+
+            <div class="ml-6" style="margin-left:20px">
+                <h4 class="text-muted">{{ user.first_name }}</h4>
+                <ul class="m-0 float-left" style="list-style: none; margin:0; padding: 0">
+
+                    {% if user.email %}
+                    <li class="text-muted"><strong>E-mail:</strong> {{ user.email }}</li>
+
+                    {% else %}
+                    <li class="text-muted"><strong>E-mail:</strong><span class="badge badge-danger">
+                            Não possui Endereço eletrônico cadastrado</span>
+                    </li>
+                    {% endif %}
+
+                    {% if user.is_active %}
+                    <li class="text-muted"><strong>Status: </strong><span class="badge bg-success"> Ativo</span>
+                    <li>
+                        {%else%}
+
+                    <li class="text-muted"><strong>Status: </strong><span class="badge bg-success"> Inativo</span>
+                    <li>
+                        {%endif%}
+
+                    <li class="text-muted"><strong>Ultimo Login: </strong> {{ user.last_login }}</li>
+                    <li class="text-muted"><strong>Voçê está cadastrado desde: </strong>
+                        {{ user.date_joined | date:'d/m/Y' }}
+                    </li>
+                    {% if user.is_superuser%}
+                    <li class="text-muted"><strong>Perfil: </strong>
+                        Administrador
+                    </li>
+                    {%endif%}
+                    <br>
+                    <diV class="mt-5">
+                        <a class="btn btn-primary text-white"
+                           href="{% url 'update_profile' user.id %}">
+                            <i class="fa fa-edit"></i> Editar dados do Perfil</a>
+                    </diV>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+{% endblock %}
+

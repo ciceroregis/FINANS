@@ -1,0 +1,124 @@
+{% load static %}
+<!-- Bootstrap and necessary plugins -->
+<script src="{% static 'dist/vendors/js/jquery.min.js' %}"></script>
+<script src="{% static 'dist/vendors/js/popper.min.js' %}"></script>
+<script src="{% static 'dist/vendors/js/bootstrap.min.js' %}"></script>
+<script src="{% static 'dist/vendors/js/pace.min.js' %}"></script>
+<script src="{% static 'dist/js/views/main.js' %}"></script>
+<script src="{% static 'dist/js/app.js' %}"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js" integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V" crossorigin="anonymous"></script>
+<link rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.min.css"/>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.15/jquery.mask.min.js"></script>
+<script>
+
+    // tooltip data
+    $(document).ready(function () {
+        $('[data-toggle="tooltip"]').tooltip();
+    });
+
+    $(document).ready(function() {
+      $('.select2').select2();
+    });
+
+    // calendar component
+    $(function () {
+        $.datetimepicker.setLocale('pt-BR');
+        $("#datetimepicker").datetimepicker({
+            timepicker: false,
+            format: 'd/m/Y',
+        });
+    });
+
+    // search input database
+    $(function () {
+        // Obtem a referência da tabela lista de lançamentos e da coluna de data
+        const table = document.getElementById('table');
+        const dateColumn = 6; // Suponha que a coluna de data seja a terceira coluna
+
+        // Adiciona um evento de input a um elemento de entrada
+        const input = document.getElementById('date');
+        $(input).mask("99/99/9999");
+        input.addEventListener('change', function () {
+            const filterText = input.value.toLowerCase();
+            const rows = table.rows;
+            for (let i = 1; i < rows.length; i++) { // Começa em 1 para ignorar a linha de cabeçalho
+                const row = rows[i];
+                const dateValue = row.cells[dateColumn].textContent.toLowerCase();
+                if (dateValue.includes(filterText)) {
+                    row.style.display = 'table-row';
+                } else {
+                    row.style.display = 'none';
+                }
+            }
+        });
+    });
+
+    // select repeat input
+   document.addEventListener("DOMContentLoaded", function() {
+  let checkbox = document.getElementById("checkbox");
+  let select = document.getElementById("select");
+  let total_installments = document.getElementById("total_installments");
+
+
+  if (total_installments.value && checkbox.checked == true) {
+    select.style.display = "inline-block";
+    select.style.position = "absolute";
+    total_installments.style.display = "inline-block";
+    total_installments.style.position = "absolute";
+    checkbox.checked = true;
+  } else {
+    checkbox.checked = false;
+  }
+
+// checkbox input is checked
+  checkbox.addEventListener("change", function() {
+    if (this.checked || total_installments.value) {
+             select.style.display = "inline-block";
+              select.style.position = "absolute";
+              total_installments.style.display = "inline-block";
+              total_installments.style.position = "absolute";
+    } else {
+      select.style.display = "none";
+      total_installments.style.display = "none";
+    }
+  });
+});
+
+
+
+
+    // search input table
+    $(document).ready(function () {
+        $("#filter").on("change", function () {
+            const value = $(this).val();
+            if (value === "revenue") {
+                $("#table tbody tr").show();
+                $("#table tbody tr .transaction.expense").closest("tr").hide();
+            } else if (value === "expense") {
+                $("#table tbody tr").show();
+                $("#table tbody tr .transaction.revenue").closest("tr").hide();
+            } else {
+                $("#table tbody tr").show();
+            }
+        });
+    });
+
+setInterval(function() {
+  var button = document.getElementById("notificationButton");
+      if (button) {
+        button.classList.toggle("flash");
+      }
+    }, 1000);
+
+
+</script>
+{% block script %}
+{% endblock %}
+
