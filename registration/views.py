@@ -14,7 +14,7 @@ from django.contrib.auth.tokens import default_token_generator
 from django.utils.encoding import force_bytes
 from django.views.decorators.http import require_GET
 
-from home import settings
+from core import settings
 from registration.forms import SignUpForm, UserChangeData
 
 

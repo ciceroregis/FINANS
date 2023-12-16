@@ -2,7 +2,7 @@
 from django.contrib.auth import views as auth_views
 from django.contrib.auth.views import LogoutView
 from django.urls import path
-from home import settings
+from core import settings
 
 from registration.views import register_user,show_user_profile,update_profile_data,password_reset_request
 

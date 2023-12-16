@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 from django.urls import reverse
 
 from banks_accounts.models import Accounts, Account_types, Banks
-from home.views import incomes_card
+from core.views import incomes_card
 from transactions.models import Transactions
 
 
@@ -23,20 +23,20 @@ class BankAccountListTestCase(TestCase):
 
     def test_bank_account_list_view_with_login(self):
         self.client.login(username='testuser', password='password')
-        response = self.client.get(reverse('home'))
+        response = self.client.get(reverse('core'))
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, 'home.html')
+        self.assertTemplateUsed(response, 'core.html')
 
     def test_bank_account_list_view_without_login(self):
-        response = self.client.get(reverse('home'))
+        response = self.client.get(reverse('core'))
         self.assertEqual(response.status_code, 302)
         self.assertTrue(response.url.startswith('/accounts/login/?next='))
 
     def test_bank_account_list_view_with_search(self):
         self.client.login(username='testuser', password='password')
-        response = self.client.get(reverse('home'), {'search': 'test bank'})
+        response = self.client.get(reverse('core'), {'search': 'test bank'})
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, 'home.html')
+        self.assertTemplateUsed(response, 'core.html')
         accounts = response.context['bank_account_list']
         self.assertTrue(all(account.bank.name.lower().find('test bank') != -1 for account in accounts))
 
@@ -44,9 +44,9 @@ class BankAccountListTestCase(TestCase):
         self.client.login(username='testuser', password='password')
         for i in range(20):
             Accounts.objects.create(description='Test Bank {}'.format(i), user=self.user, type=self.account_type)
-        response = self.client.get(reverse('home'))
+        response = self.client.get(reverse('core'))
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, 'home.html')
+        self.assertTemplateUsed(response, 'core.html')
         accounts = response.context['bank_account_list']
         self.assertEqual(len(accounts), 10)
 

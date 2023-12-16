@@ -10,12 +10,11 @@ class Banks(models.Model):
 
     name = models.CharField(max_length=250, verbose_name='Nome', null=False, blank=False)
     code = models.CharField(max_length=3, unique=True, blank=False, null=False, verbose_name='Código')
-    logo = models.FileField(upload_to="bank_logo", default=None, max_length=200, null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='Data de Criação')
     updated_at = models.DateTimeField(auto_now=True, verbose_name='Data de Atualização')
 
     def __str__(self):
-        return str(self.code) + " - " + self.name.upper()
+        return self.name
 
 
 class Account_types(models.Model):

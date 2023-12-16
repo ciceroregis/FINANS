@@ -3,18 +3,17 @@
 {% load static %}
 {% block content %}
 
-<div class="container">
   <div class="col-md-12">
     {% if messages %} {% for message in messages %}
     <div class="alert alert-success mt-2" role="alert">{{ message }}</div>
     {% endfor %} {% endif %}
 
     <a
-      class="btn btn-primary"
+      class="btn btn-primary mx-5"
       href="{% url 'list_transactions' %}">
       <i class="fa fa-arrow-left" type="button"></i> Voltar</a>
 
-    <div class="card" style="margin-top: 20px">
+    <div class="card mx-5" style="margin-top: 20px">
       {% for trans in details %}
 
       <div class="card-header">
@@ -22,7 +21,7 @@
       </div>
       <div class="card-body {% if acc.archived %}bg-light {% endif%}">
         <ul
-          class="m-6 float-left"
+          class="float-left"
           style="list-style: none; margin: 0; padding: 0">
           <li class="text-muted">
             <strong>Anexos:</strong> {% if trans.attachments %}<a
@@ -69,7 +68,7 @@
           </li>
         </ul>
       </div>
-      <div class="col-sm-12 mb-2">
+      <div class="col-sm-12 mb-2 mx-3">
         <a
           class="btn btn-primary"
           href="{% url 'update_transaction' trans.id %}"><i class="fa fa-edit"></i> Atualizar Lançamento</a>
@@ -78,4 +77,3 @@
     {% endfor %}
   </div>
   {% endblock %}
-</div>

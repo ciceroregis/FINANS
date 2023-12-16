@@ -39,7 +39,7 @@ class AccountTypeAdmin(admin.ModelAdmin):
 @admin.register(Banks)
 class BanksInlineForm(admin.ModelAdmin):
     model = Banks
-    list_display = ('name', 'code', 'logo', 'created_at', 'updated_at')
+    list_display = ('name', 'code', 'created_at', 'updated_at')
 
 
 @admin.register(Category)

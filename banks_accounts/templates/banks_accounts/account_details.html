@@ -7,12 +7,11 @@
 <link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.0.8/css/all.css"
       integrity="sha384-3AB7yXWz4OeoZcPbieVW64vVXEwADiYyAEhwilzWsLw+9FgqpyjjStpPnpBO8o8S" rel="stylesheet">
 
-<div class="container">
     <div class="col-md-12">
         {% include 'base/messages.html' %}
-        <a class="btn btn-primary" href="{% url 'home' %}">
+        <a class="btn btn-primary mx-5" href="{% url 'home' %}">
             <li class="fa fa-arrow-left"></li> Voltar</a>
-        <div class="card mt-5">
+        <div class="card mt-5 mx-5">
             <div class="card-header">
                 <h4><strong>{{account.bank}}</strong></h4>
                 {% if account.archived %}
@@ -64,7 +63,7 @@
                     </li>
                 </ul>
             </div>
-            <div class="col-sm-12 mb-2">
+            <div class="col-sm-12 mb-2 mx-3">
                 <a class="btn btn-primary {% if account.archived %} disabled {%endif%}"
                    href="{% url 'update_bank_account' account.id %}" title="Atualizar Minha Conta">
                     <i class="fa fa-edit"></i> Atualizar Minha Conta</a>
@@ -72,4 +71,3 @@
         </div>
     </div>
     {% endblock %}
-</div>

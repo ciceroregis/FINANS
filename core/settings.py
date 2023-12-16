@@ -1,11 +1,12 @@
 from django.contrib.messages import constants
 import os
 from django.urls import reverse_lazy
-from .jazzmin import JAZZMIN_SETTINGS
-
+import environ
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'n&*9=_1x&$rmbxi))vr#vu+o=uc7ehc^idfzo%o3yf9@$_0dbn'
+
+environ.Env.read_env(os.path.join(BASE_DIR, 'core\.env'))
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -16,8 +17,6 @@ CSRF_TRUSTED_ORIGINS = ['http://localhost:85', 'http://127.0.0.1',
 
 # Application definition
 INSTALLED_APPS = [
-    #'jazzmin',
-
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -36,7 +35,6 @@ INSTALLED_APPS = [
 
 CRISPY_TEMPLATE_PACK = 'bootstrap5'
 
-
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -47,7 +45,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'home.urls'
+ROOT_URLCONF = 'core.urls'
 
 TEMPLATES = [
     {
@@ -65,32 +63,25 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'home.wsgi.application'
+WSGI_APPLICATION = 'core.wsgi.application'
 
 # Database
-# https://docs.djangoproject.com/en/4.1/ref/settings/#databases
+# https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
-DB_ENGINE = os.getenv('DB_ENGINE', 'mysql')
-DB_USERNAME = os.getenv('DB_USERNAME', 'root')
-DB_PASS = os.getenv('DB_PASS', 'Meups32024@')
-DB_HOST = os.getenv('DB_HOST', 'localhost')
-DB_PORT = os.getenv('DB_PORT', '3306')
-DB_NAME = os.getenv('DB_NAME', 'finans')
-
+# Database
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.' + DB_ENGINE,
-        'NAME': DB_NAME,
-        'USER': DB_USERNAME,
-        'PASSWORD': DB_PASS,
-        'HOST': DB_HOST,
-        'PORT': DB_PORT,
-    },
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': os.getenv("DB_NAME"),
+        'USER': os.getenv('DB_USER'),
+        'PASSWORD': os.getenv('DB_PASSWORD'),
+        'HOST': os.getenv('DB_HOST'),
+        'PORT': os.getenv('DB_PORT'),
+    }
 }
 
-
 # Password validation
-# https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
+# https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -108,7 +99,7 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 # Internationalization
-# https://docs.djangoproject.com/en/4.1/topics/i18n/
+# https://docs.djangoproject.com/en/5.0/topics/i18n/
 
 LANGUAGE_CODE = "pt-br"
 TIME_ZONE = "America/Sao_Paulo"
@@ -125,19 +116,17 @@ EMAIL_USE_TLS = True
 EMAIL_PORT = 587
 
 # Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/4.1/howto/static-files/
+# https://docs.djangoproject.com/en/5.0/howto/static-files/
 STATIC_URL = "/static/"
 STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 STATICFILES_DIRS = (os.path.join(BASE_DIR, "static"),)
 MEDIA_URL = "/media/"
 
-LOGIN_REDIRECT_URL = reverse_lazy("home")
+LOGIN_REDIRECT_URL = reverse_lazy("core")
 LOGOUT_REDIRECT_URL = reverse_lazy("login")
 
 DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
-
-JAZZMIN_SETTINGS = JAZZMIN_SETTINGS
 
 MESSAGE_TAGS = {
     constants.DEBUG: 'alert-info',
@@ -147,6 +136,3 @@ MESSAGE_TAGS = {
     constants.WARNING: 'alert-warning',
 }
 
-# Substituting a custom User model
-# https://docs.djangoproject.com/en/2.2/topics/auth/customizing/#substituting-a-custom-user-model
-# AUTH_USER_MODEL = '.User'
