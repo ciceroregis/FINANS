@@ -32,48 +32,52 @@
 
 <form action="" method="GET">
     <div class="container-fluid">
-        <div class="row">
-            <div class="col-lg-2">
-                <a href="{% url 'create_transaction' %}" class="btn btn-info text-light mb-2 mx-5">
-                    <i class="fa fa-plus"></i>
-                    Novo Lançamento
-                </a>
-            </div>
-            <div class="col-lg-4">
-                <div class="input-group mb-2">
-                    <input type="text" id="search" name="search" placeholder="Pesquisar"
-                           class="form-control" data-toggle="tooltip" data-placement="top"
-                           title="Pesquisar Lançamento Por Descrição, Nome da Conta, e Valor">
-                    <div class="input-group-append">
-                        <button class="btn btn-primary" type="submit">
-                            <i class="fa fa-search"></i>
-                            <span class="sr-only">Pesquisar</span>
-                        </button>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-lg-3">
-                <select class="form-control mb-2 mx-5" id="filter">
-                    <option value="transaction">Todos</option>
-                    <option value="revenue">Receitas</option>
-                    <option value="expense">Despesas</option>
-                </select>
-            </div>
-            <div class="col-lg-3">
-                <div class="form-group mb-2 mx-5">
-                    <input type="text" id="date" name="date" autocomplete="off" placeholder="Filtrar por data"
-                           class="form-control">
-                </div>
+        <div class="row mx-4">
+    <div class="col-lg-2 col-md-3 col-sm-6 mb-2">
+        <a href="{% url 'create_transaction' %}" class="btn btn-info btn-sm text-light">
+            <i class="fa fa-plus"></i>
+            Novo Lançamento
+        </a>
+    </div>
+    <div class="col-lg-4 col-md-5 col-sm-6 mb-2">
+        <div class="input-group">
+            <input type="text" id="search" name="search" placeholder="Pesquisar"
+                   class="form-control form-sm" data-toggle="tooltip" data-placement="top"
+                   title="Pesquisar Lançamento Por Descrição, Nome da Conta, e Valor">
+            <div class="input-group-append">
+                <button class="btn btn-primary" type="submit">
+                    <i class="fa fa-search"></i>
+                    <span class="sr-only">Pesquisar</span>
+                </button>
             </div>
         </div>
     </div>
 
+    <div class="col-lg-3 col-md-4 col-sm-6 mb-2">
+        <select class="form-control form-sm">
+            <option value="transaction">Todos</option>
+            <option value="revenue">Receitas</option>
+            <option value="expense">Despesas</option>
+        </select>
+    </div>
+    <div class="col-lg-3 col-md-4 col-sm-6 mb-2">
+        <div class="form-group">
+            <input type="text" id="date" name="date" autocomplete="off" placeholder="Filtrar por data"
+                   class="form-control form-sm" data-toggle="tooltip" data-placement="top"
+                   title="Insira a data que deseja fazer a pesquisa">
+        </div>
+    </div>
+</div>
+
+    </div>
+
 </form>
-<div class="ml-2 mr-2">{% include 'base/messages.html' %}</div>
+<div class="mx-5">{% include 'base/messages.html' %}</div>
 <div class="card mx-5">
     <div class="card-body">
-        <table class="table table-hover table-responsive text-center table-bordered" id="table" style="width: 98%; margin-left:10px;">
+        <div class="table-responsive">
+        <table class="table table-hover table-sm text-center table-bordered" id="table"
+               >
             <thead class="table-light">
             <tr>
                 <th scope="col">Descrição</th>
@@ -163,6 +167,7 @@
             {% endfor %}
             </tbody>
         </table>
+        </div>
     </div>
 </div>
 {% if list_transactions %}

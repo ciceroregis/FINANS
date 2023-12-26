@@ -152,7 +152,7 @@ def update_transaction(request, pk):
             transaction.attachments = form.cleaned_data.get('attachments')
             transaction.select = form.cleaned_data.get('select')
             transaction.save()
-            messages.success(request, "O Lançamento foi atualizada com sucesso!")
+            messages.success(request, "Lançamento atualizado com sucesso!")
             return redirect("/transactions_details/{0}".format(transaction.pk), messages)
         else:
             messages.error(request, "Ocorreu um erro ao tentar salvar o fomulário")
@@ -180,7 +180,7 @@ def remove_transaction(request, pk):
                 messages.error(request, 'Lançamento não encontrado.')
                 return redirect('list_transactions')
         else:
-            messages.info(request, 'Ação cancelada.')
+            messages.warning(request, 'Ação cancelada.')
             return redirect('list_transactions')
     else:
         return render(request, 'remove_transaction.html', {'transaction_id': pk})
@@ -191,13 +191,13 @@ def mark_account_as_paid(request, pk):
     try:
         account = Transactions.objects.get(id=pk, user=request.user)
     except Transactions.DoesNotExist:
-        messages.warning(request, "o Lançamento não existe ou já está pago.")
+        messages.warning(request, "Lançamento não existe ou já está pago.")
         return redirect("list_transactions")
     if account.paid is False:
         account.paid = True
         account.date_transaction = datetime.now().date()
         account.save()
-        messages.success(request, f"O Lançamento foi marcada como pago com sucesso na data {account.date_transaction}")
+        messages.success(request, f"Lançamento  pago com sucesso!")
     else:
         messages.warning(request, "Ação não permitida.")
     return redirect("list_transactions")

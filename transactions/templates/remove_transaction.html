@@ -10,8 +10,8 @@
             <form method="post">
                 {% csrf_token %}
                 <input name="transaction_id" type="hidden" value="{{ transaction_id }}">
-                <button class="btn btn-danger" name="confirm" type="submit" value="yes">Sim</button>
-                <button class="btn btn-secondary" name="confirm" type="submit" value="no">Não</button>
+                <button class="btn btn-danger btn-sm" name="confirm" type="submit" value="yes">Sim</button>
+                <button class="btn btn-secondary btn-sm" name="confirm" type="submit" value="no">Não</button>
             </form>
         </div>
     </div>

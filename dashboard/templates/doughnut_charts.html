@@ -1,138 +1,138 @@
 {% load static %}
 {% block content %}
+<div class="row">
+    <div class="col-12 col-lg-6 mb-3 mt-3">
+        <div class="card mx-lg-5">
+            <div class="card-body">
+                <canvas id="doughnut-chart-expenses" class="text-center"></canvas>
+            </div>
+        </div>
+    </div>
 
-<div class="col-8 col-md-6 col-6">
-    <div class="card ml-5">
-        <div class="card-body">
-            <canvas id="doughnut-chart-expenses" width="100" height="100" class="text-center"></canvas>
+    <div class="col-12 col-lg-6 mb-3 mt-3">
+        <div class="card mx-lg-5">
+            <div class="card-body">
+                <canvas id="doughnut-chart-incomes" class="text-center"></canvas>
+            </div>
+        </div>
+    </div>
+    <div class="col-12 col-lg-6 mb-3">
+        <div class="card mx-lg-5">
+            <div class="card-body">
+                <canvas id="bar-chart-expenses" class="text-center"></canvas>
+            </div>
         </div>
     </div>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-<div class="col-8 col-md-6 col-6">
-    <div class="card mr-5">
-        <div class="card-body">
-            <canvas id="doughnut-chart-incomes" width="100" height="100" class="text-center"></canvas>
-        </div>
-    </div>
-</div>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
 <script>
-
-        // expenses by category
-        const ctx_expenses = document.getElementById('doughnut-chart-expenses').getContext('2d');
-        const myChart_expenses = new Chart(ctx_expenses, {
-    type: 'doughnut',
-    data: {
-        labels: [{% for expense in expenses_with_percentage  %}"{{ expense.category_name }}", {% endfor %}],
-        datasets: [{
-            label: 'Despesas por categoria',
-            data: [
-                {% for expense in expenses_with_percentage  %}
-                 {{ expense.total|stringformat:".2f" }},
-                {% endfor %}
-                  ],
-            backgroundColor: [
-                '#38c958',
-                '#cf1524',
-                '#3e75ff',
-                '#f1b317',
-                '#686077',
-                '#9ed99e',
-                '#7052ff',
-                '#ff7360',
-                '#ffff51',
-                '#009846',
-                '#ff0534',
-                '#8c8c8c',
-            ],
-        }]
-    },
-
-    options: {
-        title: {
-            display: true,
-            text: "Despesas por categorias",
-            fontSize: 18
+    // expenses by category
+    const ctx_expenses = document.getElementById('doughnut-chart-expenses').getContext('2d');
+    const myChart_expenses = new Chart(ctx_expenses, {
+        type: 'pie',
+        data: {
+            labels: [{% for expense in expenses_with_percentage %}"{{ expense.category_name }}", {% endfor %}],
+            datasets: [{
+                label: 'Despesas por categoria',
+                data: [
+                    {% for expense in expenses_with_percentage %}
+                        {{ expense.total|stringformat:".2f" }},
+                    {% endfor %}
+                ],
+                borderWidth: 1
+            }]
         },
-        tooltips: {
-            callbacks: {
-                label(tooltipItem, data) {
-                    const label = data.labels[tooltipItem.index];
-                    const value = data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index];
-                    const percentage = Math.round(value / data.datasets[0].data.reduce((a,b) => a + b) * 100);
-                    return `${label}: ${value} (${percentage}%)`;
+
+        options: {
+            title: {
+                text: "Despesas por categorias",
+                fontSize: 18,
+                responsive: true,
+            },
+            tooltips: {
+                callbacks: {
+                    label(tooltipItem, data) {
+                        const label = data.labels[tooltipItem.index];
+                        const value = data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index];
+                        const percentage = Math.round(value / data.datasets[0].data.reduce((a, b) => a + b) * 100);
+                        return `${label}: ${value} (${percentage}%)`;
+                    }
+                }
+            },
+        }
+    });
+
+
+    const ctx_bar_expenses = document.getElementById('bar-chart-expenses').getContext('2d');
+    const chart_bar_expenses = new Chart(ctx_bar_expenses, {
+        type: 'bar',
+        data: {
+            labels: [{% for expense in expenses_with_percentage %}"{{ expense.category_name }}", {% endfor %}],
+            datasets: [{
+                label: 'Despesas por categoria',
+                data: [
+                    {% for expense in expenses_with_percentage %}
+                        {{ expense.total|stringformat:".2f" }},
+                    {% endfor %}
+                ],
+                borderWidth: 0,
+            }]
+        },
+
+        options: {
+            title: {
+                text: "Despesas por categorias",
+                fontSize: 18,
+                responsive: true,
+            },
+            tooltips: {
+                callbacks: {
+                    label(tooltipItem, data) {
+                        const label = data.labels[tooltipItem.index];
+                        const value = data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index];
+                        const percentage = Math.round(value / data.datasets[0].data.reduce((a, b) => a + b) * 100);
+                        return `${label}: ${value} (${percentage}%)`;
+                    }
+                }
+            },
+        }
+    });
+
+    // incomes by category
+    const ctx_incomes = document.getElementById('doughnut-chart-incomes').getContext('2d');
+    const myChart_incomes = new Chart(ctx_incomes, {
+        type: 'pie',
+        data: {
+            labels: [{% for income in incomes_with_percentage  %}"{{ income.category_name }}", {% endfor %}],
+            datasets: [{
+                label: 'Receita por categoria',
+                data: [
+                    {% for income in incomes_with_percentage  %}
+                        {{ income.total|stringformat:".2f" }},
+                    {% endfor %}
+                ],
+            }]
+        },
+
+        options: {
+            title: {
+                display: true,
+                text: "Receitas por categorias",
+                fontSize: 18
+            },
+            tooltips: {
+                callbacks: {
+                    label(tooltipItem, data) {
+                        const label = data.labels[tooltipItem.index];
+                        const value = data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index];
+                        const percentage = Math.round(value / data.datasets[0].data.reduce((a, b) => a + b) * 100);
+                        return `${label}: ${value} (${percentage}%)`;
+                    }
                 }
             }
-        },
-      animation: {
-          onComplete: function() {
-              const ctx = this.chart.ctx;
-              ctx.font = "bold 20px Arial";
-              ctx.fillStyle = "#000000";
-              ctx.textAlign = "center";
-              ctx.textBaseline = "middle";
-              const total = this.config.data.datasets[0].data.reduce((a, b) => a + b);
-              console.log(`Valor total das despesas: ${total.toFixed(2)}`);
-              const text = total.toFixed(2);
-              if (ctx.chartArea) {
-                const textX = Math.round((ctx.canvas.width + ctx.chartArea.left) / 2);
-                const textY = Math.round((ctx.canvas.height + ctx.chartArea.top) / 2);
-                ctx.fillText(text, textX, textY);
-             }
-          }
-      }
-    }
-});
-        // incomes by category
-        const ctx_incomes = document.getElementById('doughnut-chart-incomes').getContext('2d');
-        const myChart_incomes = new Chart(ctx_incomes, {
-    type: 'doughnut',
-    data: {
-        labels: [{% for income in incomes_with_percentage  %}"{{ income.category_name }}", {% endfor %}],
-        datasets: [{
-            label: 'Receita por categoria',
-            data: [
-                {% for income in incomes_with_percentage  %}
-                 {{ income.total|stringformat:".2f" }},
-                {% endfor %}
-                  ],
-            backgroundColor: [
-                '#38c958',
-                '#cf1524',
-                '#3e75ff',
-                '#f1b317',
-                '#686077',
-                '#9ed99e',
-                '#7052ff',
-                '#ff7360',
-                '#ffff51',
-                '#009846',
-                '#ff0534',
-                '#8c8c8c',
-            ],
-        }]
-    },
-
-    options: {
-        title: {
-            display: true,
-            text: "Receitas por categorias",
-            fontSize: 18
-        },
-        tooltips: {
-          callbacks: {
-              label(tooltipItem, data) {
-                  const label = data.labels[tooltipItem.index];
-                  const value = data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index];
-                  const percentage = Math.round(value / data.datasets[0].data.reduce((a,b) => a + b) * 100);
-                  return `${label}: ${value} (${percentage}%)`;
-              }
-          }
-      }
-    }
-});
+        }
+    });
 </script>
 {% endblock %}

@@ -3,13 +3,10 @@
 {% load static %}
 {% block content %}
 
-  <div class="col-md-12">
-    {% if messages %} {% for message in messages %}
-    <div class="alert alert-success mt-2" role="alert">{{ message }}</div>
-    {% endfor %} {% endif %}
+<div class="mx-5">{% include 'base/messages.html' %}</div>
 
     <a
-      class="btn btn-primary mx-5"
+      class="btn btn-primary btn-sm mx-5"
       href="{% url 'list_transactions' %}">
       <i class="fa fa-arrow-left" type="button"></i> Voltar</a>
 
@@ -70,8 +67,8 @@
       </div>
       <div class="col-sm-12 mb-2 mx-3">
         <a
-          class="btn btn-primary"
-          href="{% url 'update_transaction' trans.id %}"><i class="fa fa-edit"></i> Atualizar Lançamento</a>
+          class="btn btn-primary btn-sm"
+          href="{% url 'update_transaction' trans.id %}"><i class="fa fa-edit"></i> Editar</a>
       </div>
     </div>
     {% endfor %}

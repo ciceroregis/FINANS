@@ -116,7 +116,7 @@ def remove_bank_account(request, pk):
                 messages.error(request, 'Conta bancária não encontrada.')
                 return redirect('home')
         else:
-            messages.info(request, 'Ação cancelada.')
+            messages.warning(request, 'Ação cancelada.')
             return redirect('home')
     else:
         return render(request, 'banks_accounts/remove_bank_account.html', {'account_id': pk})

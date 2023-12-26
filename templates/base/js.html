@@ -37,28 +37,22 @@
     });
 
     // search input database
-    $(function () {
-        // Obtem a referência da tabela lista de lançamentos e da coluna de data
-        const table = document.getElementById('table');
-        const dateColumn = 6; // Suponha que a coluna de data seja a terceira coluna
+   $(function () {
+    const dateColumn = 6;
 
-        // Adiciona um evento de input a um elemento de entrada
-        const input = document.getElementById('date');
-        $(input).mask("99/99/9999");
-        input.addEventListener('change', function () {
-            const filterText = input.value.toLowerCase();
-            const rows = table.rows;
-            for (let i = 1; i < rows.length; i++) { // Começa em 1 para ignorar a linha de cabeçalho
-                const row = rows[i];
-                const dateValue = row.cells[dateColumn].textContent.toLowerCase();
-                if (dateValue.includes(filterText)) {
-                    row.style.display = 'table-row';
-                } else {
-                    row.style.display = 'none';
-                }
-            }
+    $('#date').mask("99/99/9999").on('input', function () {
+        const filterText = $(this).val().toLowerCase();
+
+        $('#table tbody tr').each(function () {
+            const dateValue = $(this).find('td:eq(' + dateColumn + ')').text().toLowerCase();
+            const display = dateValue.includes(filterText) ? 'table-row' : 'none';
+            $(this).css('display', display);
         });
     });
+});
+
+
+
 
     // select repeat input
    document.addEventListener("DOMContentLoaded", function() {
@@ -69,9 +63,7 @@
 
   if (total_installments.value && checkbox.checked == true) {
     select.style.display = "inline-block";
-    select.style.position = "absolute";
     total_installments.style.display = "inline-block";
-    total_installments.style.position = "absolute";
     checkbox.checked = true;
   } else {
     checkbox.checked = false;
@@ -81,9 +73,7 @@
   checkbox.addEventListener("change", function() {
     if (this.checked || total_installments.value) {
              select.style.display = "inline-block";
-              select.style.position = "absolute";
               total_installments.style.display = "inline-block";
-              total_installments.style.position = "absolute";
     } else {
       select.style.display = "none";
       total_installments.style.display = "none";
