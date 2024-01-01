@@ -57,6 +57,7 @@
                         const label = data.labels[tooltipItem.index];
                         const value = data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index];
                         const percentage = Math.round(value / data.datasets[0].data.reduce((a, b) => a + b) * 100);
+                        console.log(percentage)
                         return `${label}: ${value} (${percentage}%)`;
                     }
                 }

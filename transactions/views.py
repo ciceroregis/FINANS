@@ -11,6 +11,7 @@ from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
 from django.shortcuts import redirect
 from django.shortcuts import render
+from django.urls import reverse
 from django.views.decorators.http import require_GET
 from django.db.models import Sum, Q
 
@@ -18,6 +19,7 @@ from transactions.form import TransactionForm
 from transactions.models import Accounts, Transactions
 from utils.push_notification import notifications
 from utils.installments import calculate_installments
+from django.shortcuts import render
 
 
 @login_required
@@ -193,11 +195,16 @@ def mark_account_as_paid(request, pk):
     except Transactions.DoesNotExist:
         messages.warning(request, "Lançamento não existe ou já está pago.")
         return redirect("list_transactions")
-    if account.paid is False:
+    if not account.paid and account.recurring:
+        return redirect(reverse("transactions_details", kwargs={'pk': account.pk}))
+    else:
         account.paid = True
         account.date_transaction = datetime.now().date()
         account.save()
         messages.success(request, f"Lançamento  pago com sucesso!")
-    else:
-        messages.warning(request, "Ação não permitida.")
     return redirect("list_transactions")
+
+
+
+
+

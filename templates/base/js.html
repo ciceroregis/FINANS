@@ -51,11 +51,8 @@
     });
 });
 
-
-
-
     // select repeat input
-   document.addEventListener("DOMContentLoaded", function() {
+  document.addEventListener("DOMContentLoaded", function() {
   let checkbox = document.getElementById("checkbox");
   let select = document.getElementById("select");
   let total_installments = document.getElementById("total_installments");
@@ -82,8 +79,6 @@
 });
 
 
-
-
     // search input table
     $(document).ready(function () {
         $("#filter").on("change", function () {
@@ -106,8 +101,84 @@ setInterval(function() {
         button.classList.toggle("flash");
       }
     }, 1000);
+ $(document).ready(function () {
+    $('#myTabs a').on('shown.bs.tab', function (e) {
+        // Atualiza o valor de installments.installments na interface do usuário
+        var selectedTab = $(e.target).attr('href'); // obtém o ID da aba ativa
+        console.log(selectedTab)
+        var installmentsValue = $(selectedTab).find('#installmentsValue').text();
+        console.log(installmentsValue)
+        $('#installmentsValue').text(installmentsValue);
+         var tabNumber = parseInt(selectedTab.substring(4)); // extrai o número da aba a partir do ID
+         var totalInstallments = parseInt($('.installmentsValue').data('total'));
 
+         var currentInstallment = tabNumber + 1;
 
+            // Atualiza o valor na interface do usuário
+            $('.installmentsValue').text(currentInstallment + '/' + totalInstallments);
+    });
+ });
+
+Calendario de transactions details
+  let currentDate = new Date();
+  let currentMonth = currentDate.getMonth() + 1;
+  let currentYear = currentDate.getFullYear();
+
+  function renderCalendar(month, year) {
+    const calendarBody = document.getElementById('calendar-body');
+    calendarBody.innerHTML = '';
+
+    const daysInMonth = new Date(year, month, 0).getDate();
+    const firstDay = new Date(year, month - 1, 1).getDay();
+
+    let dayCounter = 1;
+
+    for (let i = 0; i < 6; i++) {
+      const row = document.createElement('tr');
+
+      for (let j = 0; j < 7; j++) {
+        const cell = document.createElement('td');
+
+        if ((i === 0 && j < firstDay) || dayCounter > daysInMonth) {
+          cell.innerHTML = '';
+        } else {
+          cell.innerHTML = dayCounter;
+          dayCounter++;
+        }
+
+        row.appendChild(cell);
+      }
+
+      calendarBody.appendChild(row);
+    }
+
+    document.getElementById('current-month').innerText = `${getMonthName(month)} ${year}`;
+  }
+
+  function prevMonth() {
+    currentMonth--;
+    if (currentMonth === 0) {
+      currentMonth = 12;
+      currentYear--;
+    }
+    renderCalendar(currentMonth, currentYear);
+  }
+
+  function nextMonth() {
+    currentMonth++;
+    if (currentMonth === 13) {
+      currentMonth = 1;
+      currentYear++;
+    }
+    renderCalendar(currentMonth, currentYear);
+  }
+
+  function getMonthName(month) {
+    const months = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
+    return months[month - 1];
+  }
+
+  renderCalendar(currentMonth, currentYear);
 </script>
 {% block script %}
 {% endblock %}
