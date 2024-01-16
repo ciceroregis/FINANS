@@ -1,130 +1,92 @@
-{% extends 'base/base.html' %}
-{% block titulo %}Mais Detalhes | {% endblock %}
-{% load static %}
-{% load filters %}
-{% block content %}
+{% extends 'base/base.html' %} {% block titulo %}Mais Detalhes | {% endblock %}
+{% load static %} {% load filters %} {% block content %}
 <div class="mx-5">{% include 'base/messages.html' %}</div>
-<link rel="stylesheet" type="text/css" href="../style.css"/>
-    <a
-      class="btn btn-primary btn-sm mx-5"
-      href="{% url 'list_transactions' %}">
-      <i class="fa fa-arrow-left" type="button"></i> Voltar</a>
+<link rel="stylesheet" type="text/css" href="../style.css" />
+<a class="btn btn-primary btn-sm mx-5" href="{% url 'list_transactions' %}">
+  <i class="fa fa-arrow-left" type="button"></i> Voltar</a>
 
 <div class="card mx-5" style="margin-top: 20px">
-    {% for trans in details %}
-    {% if trans.recurring %}
-    <div class="card-header bg-transparent">
-       <!--<ul class="nav nav-tabs" id="myTabs">
-    {% with num_installments=trans.total_installments|default:trans.total_installments %}
-        {% for counter in num_installments|add:0|custom_range %}
-            <li class="nav-item">
-                <a class="nav-link{% if counter == 0 %} active{% endif %}" href="#tab{{ counter }}" data-toggle="tab">
-                    {% with tab_date=trans.date_transaction|add_months:counter %}
-                        {{ tab_date|date:"F Y" }}
-                    {% endwith %}
-                </a>
-            </li>
-        {% endfor %}
-    {% endwith %}
-</ul>-->
-         <div class="month-header">
-      <span class="prev-month" onclick="prevMonth()">&#9665;</span>
-      <span id="current-month">Mês Atual</span>
-      <span class="next-month" onclick="nextMonth()">&#9655;</span>
-    </div>
-
-    </div>
-    {% else %}
-   <div class="card-header bg-transparent">
-    {{trans.description}}
-   </div>
-    {%endif%}
-      <div class="card-body {% if acc.archived %}bg-light {% endif%}">
-        <ul
-          class="float-left"
-          style="list-style: none; margin: 0; padding: 0">
-          <li class="text-muted">
-            <strong>Anexos:</strong> {% if trans.attachments %}<a
-              href="{{trans.attachments.url }}">
-              {{trans.filename}}</a
-            >
-            {% else %} Nenhum Anexo inserido {%endif%}
-          </li>
-          <li class="text-muted">
-            <strong>Repete:</strong> {% if trans.recurring and trans.select %}
-            <span class="badge badge-pill badge-success"> Sim</span>
-            <span class="badge badge-pill badge-primary">
-              {{ trans.select }}</span>
-            {% else %}
-            <span class="badge badge-pill badge-danger">Não</span>
-            {%endif%}
-          </li>
-          <li class="text-muted">
-            <strong>Tipo:</strong> {%if trans.type == 'Receitas' %}
-            <span class="badge badge-pill badge-success">{{trans.type}}</span>
-            {%else%}
-            <span class="badge badge-pill badge-danger">{{trans.type}}</span>
-            {%endif%}
-          </li>
-          <li class="text-muted">
-            <strong> Observação:</strong> {% if trans.note %} {{ trans.note }}
-            {% else %} Nenhuma observação adicionada {%endif%}
-          </li>
-          {% if not installments.noInstallments and trans.recurring and trans.select %}
-            <li class="text-muted">
-                <strong>Parcelas:</strong>
-                <span id="installmentsValue">{{ installments.installments }}</span>
-            </li>
-          <li class="text-muted">
-              <strong> Valor da parcela:</strong>
-              {{ installments.installment_value|format_value }} no total de {{ trans.value|format_value }}
-            </li>
-          {% endif %}
-          <li class="text-muted">
-              <strong>Data de Lançamento: </strong> {{trans.date_transaction}}
-          </li>
-            <li class="text-muted">
-                {% if not trans.paid %}
-                <strong>Efetuar pagamento: </strong>
-                <a class="btn btn-sm btn-success" data-placement="top" data-toggle="tooltip"
-                   href="{% url 'mark_account_as_paid' trans.id %}" title="Pagar">
-                    <i class="fa fa-check" type="button"></i>
-                </a>
-                {%endif%}
-          </li>
-        </ul>
-      </div>
-      <div class="col-sm-12 mb-2 mx-3">
+  {% for trans in details %} {% if trans.recurring %}
+  <div class="card-header bg-transparent">
+    <ul class="nav nav-tabs" id="myTabs">
+      {% with num_installments=trans.total_installments|default:trans.total_installments %} {% for counter in num_installments|add:0|custom_range %}
+      <li class="nav-item">
         <a
-          class="btn btn-primary btn-sm"
-          href="{% url 'update_transaction' trans.id %}"><i class="fa fa-edit"></i> Editar</a>
-      </div>
-    </div>
-    {% endfor %}
-
-<!DOCTYPE html>
-<html lang="en">
-<body>
-
-  <div class="container mt-5 calendar-container">
-    <table class="calendar-table">
-      <tbody id="calendar-body">
-        <!-- O conteúdo do calendário será adicionado aqui dinamicamente -->
-      </tbody>
-    </table>
+          class="nav-link{% if counter == 0 %} active{% endif %}"
+          href="#tab{{ counter }}"
+          data-toggle="tab">
+          {% with tab_date=trans.date_transaction|add_months:counter %} {{ tab_date|date:"F Y" }} {% endwith %}
+        </a>
+      </li>
+      {% endfor %} {% endwith %}
+    </ul>
   </div>
-
-  <!-- ... (código HTML anterior) ... -->
-
-<script>
-
-
-</script>
-
-<!-- ... (código HTML posterior) ... -->
-
-</body>
-</html>
+  {% else %}
+  <div class="card-header bg-transparent">{{trans.description}}</div>
+  {%endif%}
+  <div class="card-body {% if acc.archived %}bg-light {% endif%}">
+    <ul class="float-left" style="list-style: none; margin: 0; padding: 0">
+      <li class="text-muted">
+        <strong>Anexos:</strong> {% if trans.attachments %}<a
+          href="{{trans.attachments.url }}">
+          {{trans.filename}}</a
+        >
+        {% else %} Nenhum Anexo inserido {%endif%}
+      </li>
+      <li class="text-muted">
+        <strong>Repete:</strong> {% if trans.recurring and trans.select %}
+        <span class="badge badge-pill badge-success"> Sim</span>
+        <span class="badge badge-pill badge-primary"> {{ trans.select }}</span>
+        {% else %}
+        <span class="badge badge-pill badge-danger">Não</span>
+        {%endif%}
+      </li>
+      <li class="text-muted">
+        <strong>Tipo:</strong> {%if trans.type == 'Receitas' %}
+        <span class="badge badge-pill badge-success">{{trans.type}}</span>
+        {%else%}
+        <span class="badge badge-pill badge-danger">{{trans.type}}</span>
+        {%endif%}
+      </li>
+      <li class="text-muted">
+        <strong> Observação:</strong> {% if trans.note %} {{ trans.note }} {% else %} Nenhuma observação adicionada {%endif%}
+      </li>
+      {% if not installments.noInstallments and trans.recurring and trans.select %}
+      <li class="text-muted">
+        <strong>Parcelas:</strong>
+        <span id="installmentsValue">{{ installments.installments }}</span>
+      </li>
+      <li class="text-muted">
+        <strong> Valor da parcela:</strong>
+        {{ installments.installment_value|format_value }} no total de {{ trans.value|format_value }}
+      </li>
+      {% endif %}
+      <li class="text-muted">
+        <strong>Data de Lançamento: </strong> {{trans.date_transaction}}
+      </li>
+      <li class="text-muted">
+        {% if not trans.paid %}
+        <strong>Efetuar pagamento: </strong>
+        <a
+          class="btn btn-sm btn-success"
+          data-placement="top"
+          data-toggle="tooltip"
+          href="{% url 'mark_account_as_paid' trans.id %}"
+          title="Pagar"
+        >
+          <i class="fa fa-check" type="button"></i>
+        </a>
+        {%endif%}
+      </li>
+    </ul>
+  </div>
+  <div class="col-sm-12 mb-2 mx-3">
+    <a
+      class="btn btn-primary btn-sm"
+      href="{% url 'update_transaction' trans.id %}"
+      ><i class="fa fa-edit"></i> Editar</a>
+  </div>
+</div>
+{% endfor %}
 
 {% endblock %}
-
