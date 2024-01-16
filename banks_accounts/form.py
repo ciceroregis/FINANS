@@ -1,3 +1,4 @@
+import requests
 from django import forms
 from banks_accounts.models import Account_types, Accounts, Banks
 from django_select2.forms import Select2Widget
@@ -13,8 +14,8 @@ class AccountForm(forms.ModelForm):
 
     bank = forms.ModelChoiceField(
         widget=Select2Widget(attrs={"class": "form-control select2",
-                                          "id": "datalistOptions",
-                                          "data-placeholder": "Informe o nome do banco"}),
+                                    "id": "datalistOptions",
+                                    "data-placeholder": "Informe o nome do banco"}),
 
         queryset=Banks.objects.all(),
         required=False,

@@ -1,58 +1,53 @@
 {% load static %}
 {% load filters %}
-<link href="{% static 'dist/css/dashboard.css' %}" rel="stylesheet">
+<link href="{% static 'dist/css/cards.css' %}" rel="stylesheet">
 
-<div class="row" style="width: 100%; margin-left:-2px">
-
-
+<div class="row mx-5 mb-5">
     <div class="col-lg-4">
         <div class="card-box bg-green">
             <div class="inner">
-                <h3> {% if total_incomes.total is None%}
+                <h3> {% if incomes.total is None%}
                     0,00
                     {% else %}
-                    {{ total_incomes.total | format_value}}
+                    {{ incomes.total | format_value}}
                     {% endif %}</h3>
                 <p> Receita </p>
 
             </div>
             <div class="icon">
-                + <i aria-hidden="true" class="fa fa-dollar"></i>
+                <i aria-hidden="true" class="fa fa-arrow-up" style="color:#009551"></i>
             </div>
-            <a class="card-box-footer"></a>
         </div>
     </div>
     <div class="col-lg-4">
         <div class="card-box bg-red">
             <div class="inner">
-                <h3> {% if total_expenses.total is None %}
+                <h3> {% if expenses.total is None %}
                      0,00
                     {% else %}
-                    {{ total_expenses.total | format_value}}
+                    {{ expenses.total | format_value}}
                     {% endif %}</h3>
                 <p> Despesa </p>
             </div>
             <div class="icon">
-                - <i class=" fa fa-dollar"></i>
+                <i class=" fa fa-arrow-down" style="color:#C54232"></i>
             </div>
-            <a class="card-box-footer"></a>
         </div>
     </div>
     <div class="col-lg-4 ">
         <div class="card-box bg-blue">
             <div class="inner">
-                <h3> {% if monthly_balance is None %}
+                <h3> {% if balance is None %}
                      0,00
                     {% else %}
-                    {{ monthly_balance | format_value}}
+                    {{ balance | format_value}}
                     {% endif %}
                 </h3>
                 <p> Balanço Mensal </p>
             </div>
             <div class="icon">
-                <i aria-hidden="true" class="fa fa-dollar"></i>
+                <i aria-hidden="true" class="fa fa-dollar" style="color:#00ACD7"></i>
             </div>
-           <a class="card-box-footer"></a>
         </div>
     </div>
 </div>

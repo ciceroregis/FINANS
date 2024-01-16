@@ -20,7 +20,7 @@ def send_pending_accounts_notification(user):
     today = date.today()  # a data atual como uma variável de contexto para o modelo
     pending_accounts = Transactions.objects.filter(user=user, paid=False, date_transaction__lte=today)
     if pending_accounts.exists():
-        message = f'Você possui {pending_accounts.count()} conta(s) com status como Pendente'
+        message = f'Você possui {pending_accounts.count()} conta(s) com status Pendente'
         notify_alert = notify.send(user, recipient=user, verb=message)
         return pending_accounts, message, notify_alert
     return None, None, None

@@ -10,9 +10,9 @@
 {% endblock %}
 
 <div class="col">
-    <a class="btn btn-primary ml-1 mb-5" href="{% url 'user_profile' %}">
+    <a class="btn btn-primary btn-sm mx-5 mb-5" href="{% url 'user_profile' %}">
         <i class="fa fa-arrow-left" type="button"></i> Voltar</a>
-    <div class="card">
+    <div class="card mx-5">
         <div class="card-header">
             Atualizar meus dados pessoais
         </div>
@@ -40,8 +40,8 @@
 
                 <div class="row" id="actions">
                     <div class="col-md-12">
-                        <button class='btn btn-success ' type='submit'><i class="fa fa-save"></i> Salvar</button>
-                        <a class="btn btn-primary" href="{% url 'password_reset' %}">
+                        <button class='btn btn-success btn-sm ' type='submit'><i class="fa fa-save"></i> Salvar</button>
+                        <a class="btn btn-primary btn-sm" href="{% url 'password_reset' %}">
                             <li class="fa fa-key mr-2"></li>
                             Alterar Senha</a>
                     </div>

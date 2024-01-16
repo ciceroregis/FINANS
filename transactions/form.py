@@ -29,8 +29,7 @@ class TransactionForm(forms.ModelForm):
 
     category = forms.ModelChoiceField(
         widget=forms.Select(
-            attrs={"class": "form-control", "data-placeholder": "Informe a categoria"}
-        ),
+            attrs={"class": "form-control", "data-placeholder": "Informe a categoria"}),
         queryset=Category.objects.all(),
         required=False,
     )
@@ -56,15 +55,16 @@ class TransactionForm(forms.ModelForm):
 
     recurring = forms.CharField(
         widget=forms.CheckboxInput(
-            attrs={'class': "checkbox form-check-input", "id": "checkbox", "placeholder": "Repete"}
+            attrs={'class': 'checkbox form-check-input', 'id': 'checkbox'}
         ),
     )
 
     select = forms.ChoiceField(
         widget=forms.Select(attrs={
-            'style': 'display:none; margin-left:-10px',
+            'style': 'display:none;',
             'id': 'select',
-            'class': 'form-control'
+            'class': 'form-control',
+            'placeholder': 'Frequência'
         }),
         required=False,
         label=True,
@@ -72,11 +72,10 @@ class TransactionForm(forms.ModelForm):
     )
     total_installments = forms.IntegerField(
         widget=forms.TextInput(attrs={
-            'style': 'display:none; '
-                     'margin-left:-10px',
+            'style': 'display:none; ',
             'id': 'total_installments',
             'class': 'form-control',
-            "placeholder": "Parcelas"
+            'placeholder': 'Parcelas'
         }),
         required=False,
         label=True,
@@ -93,26 +92,19 @@ class TransactionForm(forms.ModelForm):
 
     note = forms.CharField(
         widget=forms.TextInput(
-            attrs={
-                "class": "form-control", "placeholder": "Observação",
-            }
-        ),
+            attrs={"class": "form-control", "placeholder": "Observação", }),
         required=False,
     )
 
     attachments = forms.FileField(
         widget=forms.FileInput(
-            attrs={
-                "type": "file", "class": "form-control"
-            },
-        ),
+            attrs={"type": "file", "class": "form-control"},),
         required=False,
     )
 
     accounts = forms.ModelChoiceField(
         widget=forms.Select(
-            attrs={"class": "form-control", "data-placeholder": "Informe a conta"}
-        ),
+            attrs={"class": "form-control", "data-placeholder": "Informe a conta"}),
         queryset=Accounts.objects.none(),
         required=True
     )

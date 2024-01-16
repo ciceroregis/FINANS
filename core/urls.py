@@ -13,7 +13,6 @@ urlpatterns = [
     path('', include("registration.urls")),
     path('', include("transactions.urls")),
     path('', include('dashboard.urls')),
-    path("select2/", include("django_select2.urls")),
     path('', views.home, name='home'),
 
 

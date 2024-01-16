@@ -1,9 +1,14 @@
 {% load static %}
 <nav aria-label="Page navigation">
-        <span class="page-number mr-5">
-            Página {{ page.number }} de {{ page.paginator.num_pages }} <strong> Total de itens nesta pagina </strong> {{ page | length}}
-          </span>
-    <ul class="pagination justify-content-center">
+    <!--<div class="mt-2" style="display: flex; justify-content: flex-end;">
+        <p class="me-5">Página {{ page.number }} de {{ page.paginator.num_pages }}</p>
+        <span class="page-number me-4">
+            <strong> Total de Registros </strong> {{ page | length}}
+        </span>
+    </div>-->
+
+    <ul class="pagination pagination-sm justify-content-center">
+
         {% if page.has_previous %}
         <li class="page-item">
             <a class="page-link" href="?page={{ page.previous_page_number }}">
@@ -50,4 +55,6 @@
         </li>
         {% endif %}
     </ul>
+
 </nav>
+

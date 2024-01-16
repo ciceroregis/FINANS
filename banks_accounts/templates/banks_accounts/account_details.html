@@ -7,12 +7,11 @@
 <link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.0.8/css/all.css"
       integrity="sha384-3AB7yXWz4OeoZcPbieVW64vVXEwADiYyAEhwilzWsLw+9FgqpyjjStpPnpBO8o8S" rel="stylesheet">
 
-<div class="container">
     <div class="col-md-12">
-        {% include 'base/messages.html' %}
-        <a class="btn btn-primary" href="{% url 'home' %}">
+        <div class="mx-5">{% include 'base/messages.html' %}</div>
+        <a class="btn btn-primary btn-sm mx-5" href="{% url 'home' %}">
             <li class="fa fa-arrow-left"></li> Voltar</a>
-        <div class="card mt-5">
+        <div class="card mt-5 mx-5">
             <div class="card-header">
                 <h4><strong>{{account.bank}}</strong></h4>
                 {% if account.archived %}
@@ -45,14 +44,14 @@
                         {% else %} <span class="badge badge-danger">Não</span>{% endif %}
 
                         {% if not account.archived %}
-                            <a class="btn btn-primary  btn-sm"
+                            <a class="badge badge-primary" style="text-decoration: none;"
                            href="{% url 'archive_bank_account' account.id %}" title="Arquivar Conta">
-                              <i class="fa fa-check"></i>  Arquivar Conta
+                              <i class="fa fa-check"></i>  Arquivar
                             </a>
                         {% else %}
-                            <a class="btn btn-danger fa fa-times-circle btn-sm"
+                            <a class="badge badge-danger  btn-sm" style="text-decoration: none;"
                            href="{% url 'archive_bank_account' account.id %}" title="Desarquivar Conta">
-                                Desarquivar Conta
+                               <i class="fa fa-times-circle"></i> Desarquivar
                             </a>
                         {% endif %}
                     </li>
@@ -64,12 +63,11 @@
                     </li>
                 </ul>
             </div>
-            <div class="col-sm-12 mb-2">
-                <a class="btn btn-primary {% if account.archived %} disabled {%endif%}"
+            <div class="col-sm-12  mb-2 mx-3">
+                <a class="btn btn-primary btn-sm {% if account.archived %} disabled {%endif%}"
                    href="{% url 'update_bank_account' account.id %}" title="Atualizar Minha Conta">
-                    <i class="fa fa-edit"></i> Atualizar Minha Conta</a>
+                    <i class="fa fa-edit"></i> Editar</a>
             </div>
         </div>
     </div>
     {% endblock %}
-</div>

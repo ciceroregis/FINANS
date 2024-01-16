@@ -3,162 +3,172 @@
 {% load filters %}
 {% block titulo %}Lista de Lançamentos | {% endblock %}
 {% block content %}
-
+{% include 'cards.html' %}
 <style>
 
-.img-logo{
- width:25px;
- border-radius: 80px;
- margin: -1px;
-}
-.notificationButton {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  z-index: 9999; /* Garante que o botão fique acima de outros elementos na página */
-  animation: pulse 1s infinite; /* Adiciona o efeito de pulsação */
-}
-@keyframes flash {
-  50% { background-color: #f8e71c; }
-}
+    .img-logo{
+     width:25px;
+     border-radius: 80px;
+     margin: -1px;
+    }
+    .notificationButton {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      z-index: 9999; /* Garante que o botão fique acima de outros elementos na página */
+      animation: pulse 1s infinite; /* Adiciona o efeito de pulsação */
+    }
+    @keyframes flash {
+      50% { background-color: #f8e71c; }
+    }
 
-.flash {
-  animation-name: flash;
-  animation-duration: 2s;
-  animation-iteration-count: infinite;
-}
+    .flash {
+      animation-name: flash;
+      animation-duration: 2s;
+      animation-iteration-count: infinite;
+    }
 
 </style>
 
 <form action="" method="GET">
     <div class="container-fluid">
-        <div class="row">
-            <div class="col">
-                <a href="{% url 'create_transaction' %}" class="btn btn-info text-light mb-2 mr-5">
-                    <i class="fa fa-plus"></i>
-                    Novo Lançamento
-                </a>
-            </div>
-            <div class="col-3">
-                <div class="form-group mb-2">
-                    <input type="text" id="search" name="search" placeholder="Pesquisar"
-                           class="form-control" data-toggle="tooltip" data-placement="top"
-                           title="Pesquisar Lançamento Por Descrição, Nome da Conta, e Valor">
-                </div>
-            </div>
-            <div class="col-auto">
-                <button class="btn btn-primary mr-5" type="submit">
+        <div class="row mx-4">
+    <div class="col-lg-2 col-md-3 col-sm-6 mb-2">
+        <a href="{% url 'create_transaction' %}" class="btn btn-info btn-sm text-light">
+            <i class="fa fa-plus"></i>
+            Novo Lançamento
+        </a>
+    </div>
+    <div class="col-lg-4 col-md-5 col-sm-6 mb-2">
+        <div class="input-group">
+            <input type="text" id="search" name="search" placeholder="Pesquisar"
+                   class="form-control form-sm" data-toggle="tooltip" data-placement="top"
+                   title="Pesquisar Lançamento Por Descrição, Nome da Conta, e Valor">
+            <div class="input-group-append">
+                <button class="btn btn-primary" type="submit">
                     <i class="fa fa-search"></i>
                     <span class="sr-only">Pesquisar</span>
                 </button>
             </div>
-            <div class="col-3">
-                <select class="form-control mb-2" id="filter">
-                    <option value="transaction">Todos</option>
-                    <option value="revenue">Receitas</option>
-                    <option value="expense">Despesas</option>
-                </select>
-            </div>
-            <div class="col-auto" >
-                <div class="form-group mb-2" >
-                    <input type="text" id="date" name="date" autocomplete="off" placeholder="Filtrar por data"
-                           class="form-control">
-                </div>
-            </div>
         </div>
     </div>
 
+    <div class="col-lg-3 col-md-4 col-sm-6 mb-2">
+        <select class="form-control form-sm">
+            <option value="transaction">Todos</option>
+            <option value="revenue">Receitas</option>
+            <option value="expense">Despesas</option>
+        </select>
+    </div>
+    <div class="col-lg-3 col-md-4 col-sm-6 mb-2">
+        <div class="form-group">
+            <input type="text" id="date" name="date" autocomplete="off" placeholder="Filtrar por data"
+                   class="form-control form-sm" data-toggle="tooltip" data-placement="top"
+                   title="Insira a data que deseja fazer a pesquisa">
+        </div>
+    </div>
+</div>
+
+    </div>
+
 </form>
-<div class="ml-2 mr-2">{% include 'base/messages.html' %}</div>
-<div class="table-responsive text-center">
-    <table class="table table-hover" id="table" style="width: 98%; margin-left:10px;">
-        <thead class="text-center table-light">
-        <tr>
-            <th scope="col">Descrição</th>
-            <th scope="col">Conta</th>
-            <th scope="col">Valor</th>
-            <th scope="col">Tipo</th>
-            <th scope="col">Status</th>
-            <th scope="col">Categoria</th>
-            <th scope="col">Data Lanç.</th>
-            <th scope="col">Tipo</th>
-            <th scope="col">Ações</th>
-        </tr>
-        </thead>
-        <tbody>
-        {% for trans in list_transactions %}
-        <tr {% if not trans.paid and trans.date_transaction < today %} class="table-danger" {%endif%}>
-        <td scope="row"><a class="text-info" data-placement="top"
-                           data-toggle="tooltip" href="{% url 'transactions_details' trans.id %}"
-                           title="Mais Detalhes" style="text-decoration:none">
-            {{trans.description }}</a>
-        </td>
+<div class="mx-5">{% include 'base/messages.html' %}</div>
+<div class="card mx-5">
+    <div class="card-body">
+        <div class="table-responsive">
+        <table class="table table-hover table-sm text-center table-bordered" id="table"
+               >
+            <thead class="table-light">
+            <tr>
+                <th scope="col">Descrição</th>
+                <th scope="col">Conta</th>
+                <th scope="col">Valor</th>
+                <th scope="col">Tipo</th>
+                <th scope="col">Status</th>
+                <th scope="col">Categoria</th>
+                <th scope="col">Data Lanç.</th>
+                <th scope="col">Tipo</th>
+                <th scope="col">Ações</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for trans in list_transactions %}
+            <tr {% if not trans.paid and trans.date_transaction < today %} class="table-danger" {%endif%}>
+            <td scope="row"><a class="text-info" data-placement="top"
+                               data-toggle="tooltip" href="{% url 'transactions_details' trans.id %}"
+                               title="Mais Detalhes" style="text-decoration:none">
+                {{trans.description }}</a>
+            </td>
 
-        <td scope="row">
- {% if trans.accounts.bank.logo %}
-                    <img class="img-logo"   src="{{ trans.accounts.bank.logo.url }}" alt="image logo"/>
+            <td scope="row">
+                {% if trans.accounts.bank.logo %}
+                <img class="img-logo" src="{{ trans.accounts.bank.logo.url }}" alt="image logo"/>
                 {% endif %}
-            {{ trans.accounts.bank }}
-        </td>
-        <td scope="row">
-            {% if trans.type == 'Despesas' %}
-            <p class='text-danger transaction expense' data-placement="top" data-toggle="tooltip" title="Despesa">
+                {{ trans.accounts.bank }}
+            </td>
+            <td scope="row">
+                {% if trans.type == 'Despesas' %}
+                <span class='text-danger transaction expense' data-placement="top" data-toggle="tooltip"
+                      title="Despesa">
                 - {{ trans.value|format_value }}
-            </p>
-            {% else %}
-            <p class='text-success transaction revenue' data-placement="top" data-toggle="tooltip" title="Receita">
+            </span>
+                {% else %}
+                <span class='text-success transaction revenue' data-placement="top" data-toggle="tooltip"
+                      title="Receita">
                 {{ trans.value|format_value }}
-            </p>
-            {% endif %}
-        </td>
-        <td scope="row">
-            <div data-placement="top" data-toggle="tooltip" title="{{trans.accounts.type.description}}">
-                {{trans.accounts.type }}
-            </div>
-        </td>
-        <td scope="row">
-            {% if trans.paid %}
-            <span class="badge badge-success rounded">Pago</span>
-            {% else %}
-            <span class="badge badge-warning rounded">Pendente</span>
-            {% endif %}
-        </td>
-        <td scope="row">
-            <div data-placement="top" data-toggle="tooltip" title="{{trans.category}}">
-                {{trans.category }}
-            </div>
-        </td>
-        <td scope="row" id="date-transaction">
-            {{trans.date_transaction |date:"d/m/Y"}}
-        </td>
-        <td scope="row">
-            {% if trans.type == 'Despesas' %}
-            <span class="badge badge-danger transaction expense rounded">{{ trans.type }}</span>
-            {% else %}
-            <span class="badge badge-success transaction revenue rounded">{{ trans.type }}</span>
-            {% endif %}
-        </td>
-        <td scope="row grid text-center">
-            <a class="btn btn-sm btn-danger" data-placement="top" data-toggle="tooltip"
-               href="{% url 'remove_transaction' trans.id %}" title="Deletar Lançamento">
-                <i class="fa fa-trash" type="button"></i>
-            </a>
-            {% if not trans.paid %}
-            <a class="btn btn-sm btn-success" data-placement="top" data-toggle="tooltip"
-               href="{% url 'mark_account_as_paid' trans.id %}" title="Pagar">
-                <i class="fa fa-check" type="button"></i>
-            </a>
-            {%endif%}
-        </td>
-        </tr>
+            </span>
+                {% endif %}
+            </td>
+            <td scope="row">
+                <div data-placement="top" data-toggle="tooltip" title="{{trans.accounts.type.description}}">
+                    {{trans.accounts.type }}
+                </div>
+            </td>
+            <td scope="row">
+                {% if trans.paid %}
+                <span class="badge text-bg-success">Pago</span>
+                {% else %}
+                <span class="badge text-bg-warning">Pendente</span>
+                {% endif %}
+            </td>
+            <td scope="row">
+                <div data-placement="top" data-toggle="tooltip" title="{{trans.category}}">
+                    {{trans.category }}
+                </div>
+            </td>
+            <td scope="row" id="date-transaction">
+                {{trans.date_transaction |date:"d/m/Y"}}
+            </td>
+            <td scope="row">
+                {% if trans.type == 'Despesas' %}
+                <span class="badge text-bg-danger transaction expense">{{ trans.type }}</span>
+                {% else %}
+                <span class="badge text-bg-success transaction revenue">{{ trans.type }}</span>
+                {% endif %}
+            </td>
+            <td scope="row grid text-center">
+                <a class="btn btn-sm btn-danger" data-placement="top" data-toggle="tooltip"
+                   href="{% url 'remove_transaction' trans.id %}" title="Deletar Lançamento">
+                    <i class="fa fa-trash" type="button"></i>
+                </a>
+                {% if not trans.paid %}
+                <a class="btn btn-sm btn-success" data-placement="top" data-toggle="tooltip"
+                   href="{% url 'mark_account_as_paid' trans.id %}" title="Pagar">
+                    <i class="fa fa-check" type="button"></i>
+                </a>
+                {%endif%}
+            </td>
+            </tr>
 
-        {% empty %}
-        <td colspan="9" class="ml-2 mr-2 alert alert-warning" role="alert">
-            Não há dados na página atual
-        </td>
-        {% endfor %}
-        </tbody>
-    </table>
+            {% empty %}
+            <div class="ml-2 mr-2 alert alert-warning" role="alert">
+                Não há registros
+            </div>
+            {% endfor %}
+            </tbody>
+        </table>
+        </div>
+    </div>
 </div>
 {% if list_transactions %}
 <div class="col-md-12">{% include 'base/pagination.html' with page=list_transactions %}</div>
@@ -185,7 +195,8 @@
             <div class="modal-body">
                 {% for trans in pending_transactions %}
                 {% if not trans.paid %}
-                <li class="text-danger">{{ trans.description }} - {{trans.value}}</li>
+                </br>
+                <span class="text-danger">{{ trans.description }} - {{trans.value}}</span>
                 {% endif %}
                 {% endfor %}
             </div>

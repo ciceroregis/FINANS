@@ -1,1 +1,105 @@
-{% extends 'base/base.html' %}{% block title %}{% if title == 'Editar Lançamento' %}    Editar Lançamento{% else %}    Cadastrar Lançamento{% endif %} |{% endblock title %}{% load static %}{% load filters %}{% block content %}<a class="btn btn-primary ml-5 mt-3" href="{% url 'list_transactions' %}">    <i class="fa fa-arrow-left" type="button"></i>    Voltar</a><div class="row">    <div class="col-12">        <div class="card ml-5 mr-5 mt-5">            <div class="card-header text-muted">                <h4>                    {% if title == 'Editar Lançamento' %}                    Editar Lançamento                    {% else %}                    Cadastrar Lançamento                    {% endif %}                </h4>            </div>            <div class="card-body">                <form action="" enctype="multipart/form-data" method="POST" novalidate>                    {% csrf_token %}                    <div class="form-group">                        <label>Descrição</label>                        {{ form.description|add_css_classes_if_invalid:"form-control" }}                        <small class="form-text text-danger">{{ form.description.errors }}</small>                    </div>                    <div class="form-group">                        <label>Valor</label>                        {{ form.value|add_css_classes_if_invalid:"form-control" }}                        <small class="form-text text-danger">{{ form.value.errors }}</small>                    </div>                    <div class="form-group">                        <label>Conta</label>                        {{ form.accounts|add_css_classes_if_invalid:"form-control" }}                        <small class="form-text text-danger">{{ form.accounts.errors }}</small>                    </div>                    <div class="form-group">                        <label>Categoria</label>                        {{ form.category|add_css_classes_if_invalid:"form-control" }}                        <small class="form-text text-danger">{{ form.category.errors }}</small>                    </div>                    <div class="form-check">                        <div class="ml-4">{{form.paid}}</div>                        <label class="form-check-label ml-1">Pago</label>                    </div>                    <div class="form-group">                        <div class="row">                            <div class="form-check ml-4">                                <div class="ml-3"> {{ form.recurring }}</div>                                <label class="ml-3">Repete</label>                                <small class="form-text text-danger">{{ form.recurring.errors }}</small>                            </div>                            <div class="mr-5 col-2"> {{ form.select }}</div>                            <div class="mr-5 col-2">{{ form.total_installments }}</div>                        </div>                    </div>                    <div class="form-group">                        <label class="ml-1">Tipo</label>                        {{ form.type|add_css_classes_if_invalid:"form-control" }}                        <small class="form-text text-danger">{{ form.type.errors }}</small>                    </div>                    <div class="form-group">                        <label>Data do Lançamento</label>                        {{ form.date_transaction|add_css_classes_if_invalid:"form-control" }}                        <small class="form-text text-danger">                            {{form.date_transaction.errors}}</small>                    </div>                    <div class="form-group">                        <label>Observação</label>                        {{ form.note }}                    </div>                    <div class="form-group">                        <label>Anexo</label>                        {{ form.attachments }}                    </div>                    <button class='btn btn-success mt-5' type='submit'><i class="fa fa-save"></i> Salvar</button>                </form>            </div>        </div>    </div></div>{% endblock %}
+{% extends 'base/base.html' %} {% block title %} 
+{% if title == 'Editar Lançamento' %} 
+Editar Lançamento 
+{% else %} 
+  Cadastrar Lançamento
+ {% endif %}
+|{%endblock title %} {% load static %} {% load filters %} {% block content %}
+
+<a class="btn btn-primary ml-5 mt-3" href="{% url 'list_transactions' %}">
+  <i class="fa fa-arrow-left" type="button"></i>
+  Voltar
+</a>
+
+<div class="row">
+  <div class="col-12">
+    <div class="card ml-5 mr-5 mt-5">
+      <div class="card-header text-muted">
+        <h4>
+          {% if title == 'Editar Lançamento' %} Editar Lançamento {% else %}
+          Cadastrar Lançamento {% endif %}
+        </h4>
+      </div>
+      <div class="card-body">
+        <form action="" enctype="multipart/form-data" method="POST" novalidate>
+          {% csrf_token %}
+          <div class="form-group">
+            <label>Descrição</label>
+            {{ form.description|add_css_classes_if_invalid:"form-control" }}
+            <small class="form-text text-danger">{{ form.description.errors }}</small>
+          </div>
+
+          <div class="form-group">
+            <label>Valor</label>
+            {{ form.value|add_css_classes_if_invalid:"form-control" }}
+            <small class="form-text text-danger">{{ form.value.errors }}</small>
+          </div>
+
+          <div class="form-group">
+            <label>Conta</label>
+            {{ form.accounts|add_css_classes_if_invalid:"form-control" }}
+            <small class="form-text text-danger"
+              >{{ form.accounts.errors }}</small
+            >
+          </div>
+
+          <div class="form-group">
+            <label>Categoria</label>
+            {{ form.category|add_css_classes_if_invalid:"form-control" }}
+            <small class="form-text text-danger"
+              >{{ form.category.errors }}</small
+            >
+          </div>
+
+          <div class="form-check">
+            <div class="ml-4">{{form.paid}}</div>
+            <label class="form-check-label ml-1">Pago</label>
+          </div>
+
+          <div class="form-group">
+            <div class="row">
+              <div class="form-check ml-4">
+                <div class="ml-3">{{ form.recurring }}</div>
+                <label class="ml-3">Repete</label>
+                <small class="form-text text-danger"
+                  >{{ form.recurring.errors }}</small
+                >
+              </div>
+              <div class="mr-5 col-2">{{ form.select }}</div>
+              <div class="mr-5 col-2">{{ form.total_installments }}</div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="ml-1">Tipo</label>
+            {{ form.type|add_css_classes_if_invalid:"form-control" }}
+            <small class="form-text text-danger">{{ form.type.errors }}</small>
+          </div>
+
+          <div class="form-group">
+            <label>Data do Lançamento</label>
+            {{ form.date_transaction|add_css_classes_if_invalid:"form-control"
+            }}
+            <small class="form-text text-danger">
+              {{form.date_transaction.errors}}</small
+            >
+          </div>
+          <div class="form-group">
+            <label>Observação</label>
+            {{ form.note }}
+          </div>
+
+          <div class="form-group">
+            <label>Anexo</label>
+            {{ form.attachments }}
+          </div>
+
+          <button class="btn btn-success mt-5" type="submit">
+            <i class="fa fa-save"></i> Salvar
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

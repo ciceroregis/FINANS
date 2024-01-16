@@ -1,3 +1,5 @@
+from collections import Counter
+
 from django.db.models import Q
 from django.http import HttpResponseNotAllowed, HttpResponseNotFound
 import decimal
@@ -9,12 +11,47 @@ from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
 from django.shortcuts import redirect
 from django.shortcuts import render
+from django.urls import reverse
 from django.views.decorators.http import require_GET
+from django.db.models import Sum, Q
 
 from transactions.form import TransactionForm
 from transactions.models import Accounts, Transactions
 from utils.push_notification import notifications
 from utils.installments import calculate_installments
+from django.shortcuts import render
+
+
+@login_required
+@require_GET
+def incomes_card(request):
+    incomes = Transactions.objects.filter(
+        type__icontains='Receitas', user=request.user).aggregate(total=Sum('value'))
+    if incomes['total'] is None:
+        return None
+    return incomes
+
+
+@login_required
+@require_GET
+def expenses_card(request):
+    expenses = Transactions.objects.filter(
+        type__icontains='Despesas', user=request.user).aggregate(total=Sum('value'))
+    if expenses['total'] is None:
+        return None
+    return expenses
+
+
+@login_required
+@require_GET
+def monthly_balance(request):
+    incomes = Counter(incomes_card(request))
+    expenses = Counter(expenses_card(request))
+    if incomes['total'] is None or expenses['total'] is None:
+        return None
+    balance = incomes['total'] - expenses['total']
+    if balance:
+        return balance
 
 
 @login_required
@@ -33,6 +70,9 @@ def list_transactions(request):
         'today': today,
         'pending_transactions': pending_transactions,
         'notifications': notifications(request),
+        'incomes': incomes_card(request),
+        'expenses': expenses_card(request),
+        'balance': monthly_balance(request)
     }
     return render(request, "list_transactions.html", context)
 
@@ -114,7 +154,7 @@ def update_transaction(request, pk):
             transaction.attachments = form.cleaned_data.get('attachments')
             transaction.select = form.cleaned_data.get('select')
             transaction.save()
-            messages.success(request, "O Lançamento foi atualizada com sucesso!")
+            messages.success(request, "Lançamento atualizado com sucesso!")
             return redirect("/transactions_details/{0}".format(transaction.pk), messages)
         else:
             messages.error(request, "Ocorreu um erro ao tentar salvar o fomulário")
@@ -142,7 +182,7 @@ def remove_transaction(request, pk):
                 messages.error(request, 'Lançamento não encontrado.')
                 return redirect('list_transactions')
         else:
-            messages.info(request, 'Ação cancelada.')
+            messages.warning(request, 'Ação cancelada.')
             return redirect('list_transactions')
     else:
         return render(request, 'remove_transaction.html', {'transaction_id': pk})
@@ -153,13 +193,18 @@ def mark_account_as_paid(request, pk):
     try:
         account = Transactions.objects.get(id=pk, user=request.user)
     except Transactions.DoesNotExist:
-        messages.warning(request, "o Lançamento não existe ou já está pago.")
+        messages.warning(request, "Lançamento não existe ou já está pago.")
         return redirect("list_transactions")
-    if account.paid is False:
+    if not account.paid and account.recurring:
+        return redirect(reverse("transactions_details", kwargs={'pk': account.pk}))
+    else:
         account.paid = True
         account.date_transaction = datetime.now().date()
         account.save()
-        messages.success(request, f"O Lançamento foi marcada como pago com sucesso na data {account.date_transaction}")
-    else:
-        messages.warning(request, "Ação não permitida.")
+        messages.success(request, f"Lançamento  pago com sucesso!")
     return redirect("list_transactions")
+
+
+
+
+

@@ -61,38 +61,29 @@
     });
 
     // select repeat input
-   document.addEventListener("DOMContentLoaded", function() {
-  let checkbox = document.getElementById("checkbox");
-  let select = document.getElementById("select");
-  let total_installments = document.getElementById("total_installments");
+ document.addEventListener("DOMContentLoaded", function () {
+  const checkbox = document.getElementById("checkbox");
+  const select = document.getElementById("select");
+  const totalInstallments = document.getElementById("total_installments");
 
+  function updateDisplay() {
+    const isChecked = checkbox.checked;
 
-  if (total_installments.value && checkbox.checked == true) {
-    select.style.display = "inline-block";
-    select.style.position = "absolute";
-    total_installments.style.display = "inline-block";
-    total_installments.style.position = "absolute";
-    checkbox.checked = true;
-  } else {
-    checkbox.checked = false;
-  }
-
-// checkbox input is checked
-  checkbox.addEventListener("change", function() {
-    if (this.checked || total_installments.value) {
-             select.style.display = "inline-block";
-              select.style.position = "absolute";
-              total_installments.style.display = "inline-block";
-              total_installments.style.position = "absolute";
+    if (isChecked) {
+      select.style.display = "inline-block";
+      totalInstallments.style.display = "inline-block";
     } else {
       select.style.display = "none";
-      total_installments.style.display = "none";
+      totalInstallments.style.display = "none";
     }
-  });
+  }
+
+  // Initial state check
+  updateDisplay();
+
+  // Checkbox change event
+  checkbox.addEventListener("change", updateDisplay);
 });
-
-
-
 
     // search input table
     $(document).ready(function () {
@@ -117,8 +108,6 @@ setInterval(function() {
       }
     }, 1000);
 
-
 </script>
 {% block script %}
 {% endblock %}
-

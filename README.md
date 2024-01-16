@@ -9,19 +9,38 @@ Este é um aplicativo de gerenciamento financeiro construído com o framework Dj
 - Acesso via aplicativo móvel ou plataforma web   ## a fazer
 
 ## Tecnologias utilizadas
-- django==4.1
-- autopep8==1.6.0
-- dj-database-url==0.5.0
-- gunicorn==20.1.0
-- pycodestyle==2.8.0
-- pytz==2021.3
-- sqlparse==0.4.2
-- toml==0.10.2
-- whitenoise==5.3.0
-- django-environ==0.8.1
-- psycopg2==2.9.3
-- django-filebrowser-no-grappelli==4.0.1
-- django-colorfield==0.7.2
+- asgiref>=3.7.2
+- autopep8>=2.0.4
+- Django>=5.0
+- django-appconf>=1.0.6
+- django-crispy-forms>=2.1
+- django-environ>=0.11.2
+- django-model-utils>=4.3.1
+- django-notifications-hq>=1.7.0
+- django-rename-app>=0.1.7
+- django-select2>=8.1.2
+- filebrowser>=1.1.4
+- gunicorn>=21.2.0
+- Jinja2>=3.1.2
+- jsonfield>=3.1.0
+- MarkupSafe>=2.1.3
+- packaging>=23.2
+- Pillow>=10.1.0
+- pycodestyle>=2.11.1
+- python-slugify>=8.0.1
+- pytz>=2023.3.post1
+- requests>=2.31.0
+- self>=2020.12.3
+- six>=1.16.0
+- sqlparse>=0.4.4
+- swapper>=1.3.0
+- text-unidecode>=1.3
+- toml>=0.10.2
+- tzdata>=2023.3
+- urllib3>=2.1.0
+- whitenoise>=6.6.0
+- mysqlclient>=2.2.0
+- crispy>=0.7.4
 
 
     
