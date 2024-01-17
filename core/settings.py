@@ -123,7 +123,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 STATICFILES_DIRS = (os.path.join(BASE_DIR, "static"),)
 MEDIA_URL = "/media/"
 
-LOGIN_REDIRECT_URL = reverse_lazy("core")
+LOGIN_REDIRECT_URL = reverse_lazy("home")
 LOGOUT_REDIRECT_URL = reverse_lazy("login")
 
 DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
