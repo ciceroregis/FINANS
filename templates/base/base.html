@@ -8,16 +8,16 @@
 <!--Navbar-->
 {% include 'base/navbar.html' %}
 <body class="app header-fixed sidebar-fixed">
-<div class="app-body bg-light">
+<div class="app-body bg-light " id="loading">
     <!-- Main content -->
     <main class="main">
 
         <!-- Breadcrumb -->
         {% include 'base/breadcrumb.html' %}
-
         <!-- Page contents -->
         <div class="animated fadeIn">
             {% block content %}
+            
             {% endblock %}
         </div>
     </main>

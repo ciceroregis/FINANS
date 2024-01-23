@@ -78,8 +78,7 @@ Editar Lançamento
 
           <div class="form-group">
             <label>Data do Lançamento</label>
-            {{ form.date_transaction|add_css_classes_if_invalid:"form-control"
-            }}
+            {{ form.date_transaction|add_css_classes_if_invalid:"form-control"}}
             <small class="form-text text-danger">
               {{form.date_transaction.errors}}</small
             >
