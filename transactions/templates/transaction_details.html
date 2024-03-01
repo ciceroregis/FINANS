@@ -3,19 +3,38 @@
 <div class="mx-5">{% include 'base/messages.html' %}</div>
 <link rel="stylesheet" type="text/css" href="../style.css" />
 <a class="btn btn-primary btn-sm mx-5" href="{% url 'list_transactions' %}">
-  <i class="fa fa-arrow-left" type="button"></i> Voltar</a>
+  <i class="fa fa-arrow-left" type="button"></i> Voltar</a
+>
 
 <div class="card mx-5" style="margin-top: 20px">
   {% for trans in details %} {% if trans.recurring %}
   <div class="card-header bg-transparent">
     <ul class="nav nav-tabs" id="myTabs">
-      {% with num_installments=trans.total_installments|default:trans.total_installments %} {% for counter in num_installments|add:0|custom_range %}
+      {% with
+      num_installments=trans.total_installments|default:trans.total_installments
+      %} {% for counter in num_installments|add:0|custom_range %}
       <li class="nav-item">
         <a
-          class="nav-link{% if counter == 0 %} active{% endif %}"
+          class="nav-link{% if counter == 0 and not trans.paid %} active{% endif %} tab-{{ counter }}"
           href="#tab{{ counter }}"
-          data-toggle="tab">
-          {% with tab_date=trans.date_transaction|add_months:counter %} {{ tab_date|date:"F Y" }} {% endwith %}
+          data-toggle="tab"
+          data-tab-number="{{ counter }}"
+          onclick="showInstallments('{{ trans.date_transaction|add_months:counter }}', '{{ trans.total_installments }}')"
+        >
+          {% if trans.paid and counter == trans.paid_installment %}
+          <i class="fa fa-check text-success" type="button"></i>
+          {% endif %} {{ trans.date_transaction|add_months:counter|date:"F Y" }}
+          <a
+            class="pagar-button tab-{{ counter }}"
+            data-placement="top"
+            data-toggle="tooltip"
+            href="#"
+            title="Pagar"
+            data-transaction-id="{{ trans.id }}"
+            data-tab-number="{{ counter }}"
+          >
+            <i class="fa fa-check" type="button"></i>
+          </a>
         </a>
       </li>
       {% endfor %} {% endwith %}
@@ -28,7 +47,8 @@
     <ul class="float-left" style="list-style: none; margin: 0; padding: 0">
       <li class="text-muted">
         <strong>Anexos:</strong> {% if trans.attachments %}<a
-          href="{{trans.attachments.url }}">
+          href="{{trans.attachments.url }}"
+        >
           {{trans.filename}}</a
         >
         {% else %} Nenhum Anexo inserido {%endif%}
@@ -49,34 +69,28 @@
         {%endif%}
       </li>
       <li class="text-muted">
-        <strong> Observação:</strong> {% if trans.note %} {{ trans.note }} {% else %} Nenhuma observação adicionada {%endif%}
+        <strong> Observação:</strong> {% if trans.note %} {{ trans.note }} {%
+        else %} Nenhuma observação adicionada {%endif%}
       </li>
-      {% if not installments.noInstallments and trans.recurring and trans.select %}
-      <li class="text-muted">
-        <strong>Parcelas:</strong>
-        <span id="installmentsValue">{{ installments.installments }}</span>
-      </li>
+      {% if not installments.noInstallments and trans.recurring and trans.select
+      %}
+      <div class="tab-pane fade show active" id="tab{{ counter }}">
+        <ul class="list-unstyled">
+          <li class="text-muted">
+            <strong>Parcelas:</strong>
+            <span id="installmentsValue">{{ installments.installments }}</span>
+          </li>
+        </ul>
+        <span class="text-muted" id="tabpaid()"></span>
+      </div>
       <li class="text-muted">
         <strong> Valor da parcela:</strong>
-        {{ installments.installment_value|format_value }} no total de {{ trans.value|format_value }}
+        {{ installments.installment_value|format_value }} no total de {{
+        trans.value|format_value }}
       </li>
       {% endif %}
       <li class="text-muted">
         <strong>Data de Lançamento: </strong> {{trans.date_transaction}}
-      </li>
-      <li class="text-muted">
-        {% if not trans.paid %}
-        <strong>Efetuar pagamento: </strong>
-        <a
-          class="btn btn-sm btn-success"
-          data-placement="top"
-          data-toggle="tooltip"
-          href="{% url 'mark_account_as_paid' trans.id %}"
-          title="Pagar"
-        >
-          <i class="fa fa-check" type="button"></i>
-        </a>
-        {%endif%}
       </li>
     </ul>
   </div>
@@ -84,9 +98,8 @@
     <a
       class="btn btn-primary btn-sm"
       href="{% url 'update_transaction' trans.id %}"
-      ><i class="fa fa-edit"></i> Editar</a>
+      ><i class="fa fa-edit"></i> Editar</a
+    >
   </div>
 </div>
-{% endfor %}
-
-{% endblock %}
+{% endfor %} {% endblock %}

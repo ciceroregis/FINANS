@@ -7,12 +7,25 @@
 <script src="{% static 'dist/js/views/main.js' %}"></script>
 <script src="{% static 'dist/js/app.js' %}"></script>
 
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js" integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V" crossorigin="anonymous"></script>
-<link rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.min.css"/>
+<script
+  src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+  integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
+  crossorigin="anonymous"
+></script>
+<script
+  src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
+  integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3"
+  crossorigin="anonymous"
+></script>
+<script
+  src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js"
+  integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V"
+  crossorigin="anonymous"
+></script>
+<link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.min.css"
+/>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
@@ -20,97 +33,243 @@
 <script src="https://cdn.jsdelivr.net/npm/pace-js@latest/pace.min.js"></script>
 
 <script>
+  // tooltip data
+  $(document).ready(function () {
+    $('[data-toggle="tooltip"]').tooltip();
+  });
 
-    // tooltip data
-    $(document).ready(function () {
-        $('[data-toggle="tooltip"]').tooltip();
+  $(document).ready(function () {
+    $('.select2').select2();
+  });
+
+  // calendar component
+  $(function () {
+    $.datetimepicker.setLocale('pt-BR');
+    $('#datetimepicker').datetimepicker({
+      timepicker: false,
+      format: 'd/m/Y',
     });
+  });
 
-    $(document).ready(function() {
-      $('.select2').select2();
+  // search input database
+  $(function () {
+    // Obtem a referência da tabela lista de lançamentos e da coluna de data
+    const table = document.getElementById('table');
+    const dateColumn = 6; // Suponha que a coluna de data seja a terceira coluna
+
+    // Adiciona um evento de input a um elemento de entrada
+    const input = document.getElementById('date');
+    $(input).mask('99/99/9999');
+    input.addEventListener('change', function () {
+      const filterText = input.value.toLowerCase();
+      const rows = table.rows;
+      for (let i = 1; i < rows.length; i++) {
+        // Começa em 1 para ignorar a linha de cabeçalho
+        const row = rows[i];
+        const dateValue = row.cells[dateColumn].textContent.toLowerCase();
+        if (dateValue.includes(filterText)) {
+          row.style.display = 'table-row';
+        } else {
+          row.style.display = 'none';
+        }
+      }
     });
+  });
 
-    // calendar component
-    $(function () {
-        $.datetimepicker.setLocale('pt-BR');
-        $("#datetimepicker").datetimepicker({
-            timepicker: false,
-            format: 'd/m/Y',
-        });
+  // select repeat input
+  document.addEventListener('DOMContentLoaded', function () {
+    const checkbox = document.getElementById('checkbox');
+    const select = document.getElementById('select');
+    const totalInstallments = document.getElementById('total_installments');
+
+    function updateDisplay() {
+      const isChecked = checkbox.checked;
+
+      if (isChecked) {
+        select.style.display = 'inline-block';
+        totalInstallments.style.display = 'inline-block';
+      } else {
+        select.style.display = 'none';
+        totalInstallments.style.display = 'none';
+      }
+    }
+
+    // Initial state check
+    updateDisplay();
+
+    // Checkbox change event
+    checkbox.addEventListener('change', updateDisplay);
+  });
+
+  // search input table
+  $(document).ready(function () {
+    $('#filter').on('change', function () {
+      const value = $(this).val();
+      if (value === 'revenue') {
+        $('#table tbody tr').show();
+        $('#table tbody tr .transaction.expense').closest('tr').hide();
+      } else if (value === 'expense') {
+        $('#table tbody tr').show();
+        $('#table tbody tr .transaction.revenue').closest('tr').hide();
+      } else {
+        $('#table tbody tr').show();
+      }
     });
+  });
 
-    // search input database
-    $(function () {
-        // Obtem a referência da tabela lista de lançamentos e da coluna de data
-        const table = document.getElementById('table');
-        const dateColumn = 6; // Suponha que a coluna de data seja a terceira coluna
+  setInterval(function () {
+    var button = document.getElementById('notificationButton');
+    if (button) {
+      button.classList.toggle('flash');
+    }
+  }, 1000);
 
-        // Adiciona um evento de input a um elemento de entrada
-        const input = document.getElementById('date');
-        $(input).mask("99/99/9999");
-        input.addEventListener('change', function () {
-            const filterText = input.value.toLowerCase();
-            const rows = table.rows;
-            for (let i = 1; i < rows.length; i++) { // Começa em 1 para ignorar a linha de cabeçalho
-                const row = rows[i];
-                const dateValue = row.cells[dateColumn].textContent.toLowerCase();
-                if (dateValue.includes(filterText)) {
-                    row.style.display = 'table-row';
-                } else {
-                    row.style.display = 'none';
-                }
-            }
-        });
-    });
+  function showInstallments(date, totalInstallments) {
+    // Converte o formato da data para um formato que o construtor Date possa entender
+    var selectedDate = parseCustomDate(date);
 
-    // select repeat input
- document.addEventListener("DOMContentLoaded", function () {
-  const checkbox = document.getElementById("checkbox");
-  const select = document.getElementById("select");
-  const totalInstallments = document.getElementById("total_installments");
+    // Calcula o número de meses desde o início do pagamento
+    var startDate = new Date();
+    var monthsSinceStart =
+      (selectedDate.getFullYear() - startDate.getFullYear()) * 12 +
+      (selectedDate.getMonth() - startDate.getMonth());
 
-  function updateDisplay() {
-    const isChecked = checkbox.checked;
-
-    if (isChecked) {
-      select.style.display = "inline-block";
-      totalInstallments.style.display = "inline-block";
+    // Calcula o número da parcela atual
+    var currentInstallment = monthsSinceStart + 2;
+    // Atualiza a exibição na página
+    var installmentsValue = document.getElementById('installmentsValue');
+    if (
+      !isNaN(currentInstallment) &&
+      currentInstallment <= totalInstallments &&
+      currentInstallment >= 0
+    ) {
+      installmentsValue.innerText =
+        currentInstallment + '/' + totalInstallments;
     } else {
-      select.style.display = "none";
-      totalInstallments.style.display = "none";
+      installmentsValue.innerText = 'Todos os pagamentos foram concluídos.';
     }
   }
 
-  // Initial state check
-  updateDisplay();
+  // Função auxiliar para converter o formato específico da data
+  function parseCustomDate(dateString) {
+    var monthMap = {
+      Janeiro: 0,
+      Fevereiro: 1,
+      Março: 2,
+      Abril: 3,
+      Maio: 4,
+      Junho: 5,
+      Julho: 6,
+      Agosto: 7,
+      Setembro: 8,
+      Outubro: 9,
+      Novembro: 10,
+      Dezembro: 11,
+    };
 
-  // Checkbox change event
-  checkbox.addEventListener("change", updateDisplay);
-});
+    var parts = dateString.split(' ');
 
-    // search input table
-    $(document).ready(function () {
-        $("#filter").on("change", function () {
-            const value = $(this).val();
-            if (value === "revenue") {
-                $("#table tbody tr").show();
-                $("#table tbody tr .transaction.expense").closest("tr").hide();
-            } else if (value === "expense") {
-                $("#table tbody tr").show();
-                $("#table tbody tr .transaction.revenue").closest("tr").hide();
-            } else {
-                $("#table tbody tr").show();
-            }
-        });
+    var month = parts[2];
+    var year = parts[4];
+
+    var monthNumber = monthMap[month];
+
+    return new Date(year, monthNumber);
+  }
+
+  function tabpaid(tackedtab) {
+    if (tackedtab) {
+      return 'pago';
+    }
+    // Se a guia não estiver marcada, não retorna nada
+  }
+
+  // Exemplo de uso:
+  const guia1 = true; // Guia marcada como paga
+  const guia2 = false; // Guia não marcada
+
+  console.log(tabpaid(guia1)); // Deve exibir "pago"
+  console.log(tabpaid(guia2)); // Não exibe nada
+
+  $(document).ready(function () {
+    function payForTabs(transactionId, tabNumbers) {
+      $.ajax({
+        type: 'POST',
+        url: '{% url "mark_account_as_paid_this_month" 0 %}'.replace(
+          '0',
+          transactionId
+        ),
+        data: {
+          csrfmiddlewaretoken: '{{ csrf_token }}',
+          transaction_id: transactionId,
+          tab_numbers: tabNumbers.join(','), // Envie os números das guias como uma string separada por vírgula
+        },
+        success: function (data) {
+          if (data.success) {
+            // Remove a classe 'active' e 'paid' de todas as guias e botões "Pagar"
+            $('.nav-link, .pagar-button').removeClass('active paid');
+
+            // Adiciona a classe 'active' e 'paid' apenas à guia e botão "Pagar" dos meses pagos
+            $.each(data.paid_installments, function (index, paidInstallment) {
+              $('.tab-' + paidInstallment).addClass('active paid');
+              location.reload();
+            });
+          } else {
+            alert(data.error);
+          }
+        },
+        error: function (error) {
+          location.reload();
+          console.error('Erro ao efetuar o pagamento:', error);
+        },
+      });
+    }
+
+    $('.pagar-button').click(function (e) {
+      e.preventDefault();
+
+      var transactionId = $(this).data('transaction-id');
+      var tabNumber = $(this).data('tab-number');
+
+      // Verifica se a guia já está marcada
+      if ($(this).hasClass('active')) {
+        $(this).removeClass('active');
+      } else {
+        $(this).addClass('active');
+      }
+
+      // Obtém os números das guias marcadas
+      var tabNumbers = [];
+      $('.pagar-button.active').each(function () {
+        tabNumbers.push($(this).data('tab-number'));
+      });
+
+      payForTabs(transactionId, tabNumbers);
     });
 
-setInterval(function() {
-  var button = document.getElementById("notificationButton");
-      if (button) {
-        button.classList.toggle("flash");
-      }
-    }, 1000);
+    function updatePaidStatus() {
+      // Verifica se todas as guias estão marcadas como pagas
+      var allTabsMarked =
+        $('.nav-link').length === $('.pagar-button.active').length;
 
+      // Atualiza o campo form.paid conforme necessário
+      $('#id_paid').prop('checked', allTabsMarked);
+    }
+
+    $('.pagar-button').click(function (e) {
+      e.preventDefault();
+
+      var tabNumber = $(this).data('tab-number');
+
+      // Verifica se a guia já está marcada
+      if ($(this).hasClass('active')) {
+        $(this).removeClass('active');
+      } else {
+        $(this).addClass('active');
+      }
+
+      updatePaidStatus();
+    });
+  });
 </script>
-{% block script %}
-{% endblock %}
+{% block script %} {% endblock %}

@@ -1,5 +1,5 @@
 TODO: Consumir dados de https://brasilapi.com.br/api/banks/v1 - Retorna informações de todos os bancos do Brasil #Feito
 TODO: Gerar relatório de lançamentos para o usuário
 TODO: Gerar área de cartões de crédito para o usuário
-TODO: Gerar Loading dinamicamente na aplicação
+TODO: Gerar Loading dinamicamente na aplicação - https://loading.io/asset/302296
 TODO: Corrigir recitas com saldo das contas também cadastradas e não apenas de valores inseridos como receitas

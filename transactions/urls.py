@@ -12,5 +12,6 @@ urlpatterns = [
     path("update_transaction/<str:pk>", views.update_transaction, name="update_transaction"),
     path("remove_transaction/<str:pk>", views.remove_transaction, name="remove_transaction"),
     path("list_transactions/<str:pk>", views.mark_account_as_paid, name="mark_account_as_paid"),
+    path("mark_account_as_paid_this_month/<str:pk>", views.mark_account_as_paid_this_month, name="mark_account_as_paid_this_month"),
 
 ]

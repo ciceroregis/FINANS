@@ -53,6 +53,7 @@ class Transactions(models.Model):
     recurring = models.BooleanField(default=False, verbose_name='Repete')
     select = models.CharField(max_length=12,
                               default='', blank=False, null=False, choices=FREQUENCIES, verbose_name='Frequência')
+    paid_installment = models.PositiveIntegerField(null=True, blank=True, verbose_name='Parcela paga')
     total_installments = models.IntegerField(null=True, blank=True, verbose_name='Parcelas Totais')
     type = models.CharField(max_length=10,
                             default='', blank=False, null=False, choices=TYPE_CHOICES, verbose_name='Despesas e Receita')

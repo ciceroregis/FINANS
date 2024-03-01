@@ -1,4 +1,4 @@
-<!--login button disabled-->
+//login button disabled
 document.getElementById("login-button").disabled = true;
 document.getElementById("username").addEventListener("input", checkForm);
 document.getElementById("password").addEventListener("input", checkForm);
