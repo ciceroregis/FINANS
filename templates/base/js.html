@@ -124,47 +124,54 @@
     }
   }, 1000);
 
-  function showInstallments(date, totalInstallments) {
-    // Converte o formato da data para um formato que o construtor Date possa entender
-    var selectedDate = parseCustomDate(date);
 
-    // Calcula o número de meses desde o início do pagamento
-    var startDate = new Date();
-    var monthsSinceStart =
-      (selectedDate.getFullYear() - startDate.getFullYear()) * 12 +
-      (selectedDate.getMonth() - startDate.getMonth());
 
-    // Calcula o número da parcela atual
-    var currentInstallment = monthsSinceStart + 2;
-    // Atualiza a exibição na página
-    var installmentsValue = document.getElementById('installmentsValue');
-    if (
-      !isNaN(currentInstallment) &&
-      currentInstallment <= totalInstallments &&
-      currentInstallment >= 0
-    ) {
-      installmentsValue.innerText =
-        currentInstallment + '/' + totalInstallments;
-    } else {
-      installmentsValue.innerText = 'Todos os pagamentos foram concluídos.';
+  function calculateMonthsSinceStart(selectedDate) {
+    const startDate = new Date();
+    const monthsSinceStart =
+        (selectedDate.getFullYear() - startDate.getFullYear()) * 12 +
+        (selectedDate.getMonth() - startDate.getMonth());
+    return monthsSinceStart;
+}
+
+
+function showInstallments(date, totalInstallments) {
+    try {
+      // Converte o formato da data para um formato que o construtor Date possa entender
+      var selectedDate = parseCustomDate(date);
+      const monthsSinceStart = calculateMonthsSinceStart(selectedDate);
+      // Calcula o número de meses desde o início do pagamento
+      var currentInstallment = monthsSinceStart + 2;
+      // Atualiza a exibição na página
+      var installmentsValue = document.getElementById('installmentsValue');
+      if (
+        !isNaN(currentInstallment) && currentInstallment <= totalInstallments && currentInstallment >= 0) {
+        installmentsValue.innerText =
+          currentInstallment + '/' + totalInstallments;
+      } else {
+        installmentsValue.innerText = 'Todos os pagamentos foram concluídos.';
+      }
+    }catch{
+
     }
+    
   }
 
   // Função auxiliar para converter o formato específico da data
   function parseCustomDate(dateString) {
     var monthMap = {
-      Janeiro: 0,
-      Fevereiro: 1,
-      Março: 2,
-      Abril: 3,
-      Maio: 4,
-      Junho: 5,
-      Julho: 6,
-      Agosto: 7,
-      Setembro: 8,
-      Outubro: 9,
-      Novembro: 10,
-      Dezembro: 11,
+      Janeiro: 1,
+      Fevereiro: 2,
+      Março: 3,
+      Abril: 4,
+      Maio: 5,
+      Junho: 6,
+      Julho:7,
+      Agosto: 8,
+      Setembro: 9,
+      Outubro: 10,
+      Novembro: 11,
+      Dezembro: 12,
     };
 
     var parts = dateString.split(' ');
@@ -173,6 +180,7 @@
     var year = parts[4];
 
     var monthNumber = monthMap[month];
+    console.log("monthNumber " + monthNumber);
 
     return new Date(year, monthNumber);
   }
@@ -181,15 +189,10 @@
     if (tackedtab) {
       return 'pago';
     }
-    // Se a guia não estiver marcada, não retorna nada
   }
 
-  // Exemplo de uso:
-  const guia1 = true; // Guia marcada como paga
-  const guia2 = false; // Guia não marcada
-
-  console.log(tabpaid(guia1)); // Deve exibir "pago"
-  console.log(tabpaid(guia2)); // Não exibe nada
+  const guia1 = true; 
+  const guia2 = false; 
 
   $(document).ready(function () {
     function payForTabs(transactionId, tabNumbers) {
@@ -202,7 +205,7 @@
         data: {
           csrfmiddlewaretoken: '{{ csrf_token }}',
           transaction_id: transactionId,
-          tab_numbers: tabNumbers.join(','), // Envie os números das guias como uma string separada por vírgula
+          tab_numbers: tabNumbers.join(','), 
         },
         success: function (data) {
           if (data.success) {
@@ -220,7 +223,6 @@
         },
         error: function (error) {
           location.reload();
-          console.error('Erro ao efetuar o pagamento:', error);
         },
       });
     }

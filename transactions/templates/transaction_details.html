@@ -10,9 +10,9 @@
   {% for trans in details %} {% if trans.recurring %}
   <div class="card-header bg-transparent">
     <ul class="nav nav-tabs" id="myTabs">
-      {% with
-      num_installments=trans.total_installments|default:trans.total_installments
-      %} {% for counter in num_installments|add:0|custom_range %}
+      {% with  num_installments=trans.total_installments|default:trans.total_installments %}
+      
+       {% for counter in num_installments|add:0|custom_range %}
       <li class="nav-item">
         <a
           class="nav-link{% if counter == 0 and not trans.paid %} active{% endif %} tab-{{ counter }}"
@@ -31,13 +31,13 @@
             href="#"
             title="Pagar"
             data-transaction-id="{{ trans.id }}"
-            data-tab-number="{{ counter }}"
-          >
+            data-tab-number="{{ counter }}">
             <i class="fa fa-check" type="button"></i>
           </a>
         </a>
       </li>
-      {% endfor %} {% endwith %}
+      {% endfor %} 
+      {% endwith %}
     </ul>
   </div>
   {% else %}
@@ -46,11 +46,8 @@
   <div class="card-body {% if acc.archived %}bg-light {% endif%}">
     <ul class="float-left" style="list-style: none; margin: 0; padding: 0">
       <li class="text-muted">
-        <strong>Anexos:</strong> {% if trans.attachments %}<a
-          href="{{trans.attachments.url }}"
-        >
-          {{trans.filename}}</a
-        >
+        <strong>Anexos:</strong> {% if trans.attachments %}<a href="{{trans.attachments.url }}">
+          {{trans.filename}}</a>
         {% else %} Nenhum Anexo inserido {%endif%}
       </li>
       <li class="text-muted">
@@ -69,11 +66,9 @@
         {%endif%}
       </li>
       <li class="text-muted">
-        <strong> Observação:</strong> {% if trans.note %} {{ trans.note }} {%
-        else %} Nenhuma observação adicionada {%endif%}
+        <strong> Observação:</strong> {% if trans.note %} {{ trans.note }} {% else %} Nenhuma observação adicionada {%endif%}
       </li>
-      {% if not installments.noInstallments and trans.recurring and trans.select
-      %}
+      {% if not installments.noInstallments and trans.recurring and trans.select %}
       <div class="tab-pane fade show active" id="tab{{ counter }}">
         <ul class="list-unstyled">
           <li class="text-muted">
@@ -85,8 +80,7 @@
       </div>
       <li class="text-muted">
         <strong> Valor da parcela:</strong>
-        {{ installments.installment_value|format_value }} no total de {{
-        trans.value|format_value }}
+        {{ installments.installment_value|format_value }} no total de {{ trans.value|format_value }}
       </li>
       {% endif %}
       <li class="text-muted">
@@ -98,8 +92,7 @@
     <a
       class="btn btn-primary btn-sm"
       href="{% url 'update_transaction' trans.id %}"
-      ><i class="fa fa-edit"></i> Editar</a
-    >
+      ><i class="fa fa-edit"></i> Editar</a>
   </div>
 </div>
 {% endfor %} {% endblock %}
