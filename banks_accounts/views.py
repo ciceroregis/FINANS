@@ -102,6 +102,11 @@ def update_account(request, pk):
     return render(request, "banks_accounts/create_bank_account.html", context)
 
 
+def check_related_transactions(account):
+    transactions = Transactions.objects.filter(accounts=account)
+    return transactions.exists()
+
+
 @login_required
 def remove_bank_account(request, pk):
     if request.method == 'POST':
@@ -109,8 +114,11 @@ def remove_bank_account(request, pk):
         if confirm == 'yes':
             try:
                 account = Accounts.objects.get(pk=pk)
-                account.delete()
-                messages.success(request, 'Conta bancária removida com sucesso.')
+                if check_related_transactions(account):
+                    messages.warning(request, 'Esta conta bancária possui transações atreladas.')
+                else:
+                    account.delete()
+                    messages.success(request, 'Conta bancária removida com sucesso.')
                 return redirect('home')
             except Accounts.DoesNotExist:
                 messages.error(request, 'Conta bancária não encontrada.')
@@ -120,5 +128,3 @@ def remove_bank_account(request, pk):
             return redirect('home')
     else:
         return render(request, 'banks_accounts/remove_bank_account.html', {'account_id': pk})
-
-

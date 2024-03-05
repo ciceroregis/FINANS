@@ -134,8 +134,7 @@
     return monthsSinceStart;
 }
 
-
-function showInstallments(date, totalInstallments) {
+  function showInstallments(date, totalInstallments) {
     try {
       // Converte o formato da data para um formato que o construtor Date possa entender
       var selectedDate = parseCustomDate(date);
@@ -180,7 +179,6 @@ function showInstallments(date, totalInstallments) {
     var year = parts[4];
 
     var monthNumber = monthMap[month];
-    console.log("monthNumber " + monthNumber);
 
     return new Date(year, monthNumber);
   }

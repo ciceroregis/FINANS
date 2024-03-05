@@ -49,7 +49,7 @@ class TransactionForm(forms.ModelForm):
     )
     paid = forms.CharField(
         widget=forms.CheckboxInput(
-            attrs={'class': "checkbox form-check-input", "placeholder": "pago"}
+            attrs={'class': "checkbox form-check-input", 'id':'id_paid', "placeholder": "pago"}
         ),
     )
 
