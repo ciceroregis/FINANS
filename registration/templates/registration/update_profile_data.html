@@ -3,16 +3,16 @@
 {% load static %}
 {% block content %}
 {% block css %}
-    <link rel="stylesheet" type="text/css" href="{% static 'dist/css/style.css' %}">
+
 
 <link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.0.8/css/all.css"
       integrity="sha384-3AB7yXWz4OeoZcPbieVW64vVXEwADiYyAEhwilzWsLw+9FgqpyjjStpPnpBO8o8S" rel="stylesheet">
 {% endblock %}
 
 <div class="col">
-    <a class="btn btn-primary btn-sm mx-5 mb-5" href="{% url 'user_profile' %}">
+    <a class="mx-5 mb-5" href="{% url 'user_profile' %}" style="text-decoration:none">
         <i class="fa fa-arrow-left" type="button"></i> Voltar</a>
-    <div class="card mx-5">
+    <div class="card mx-5 mt-5">
         <div class="card-header">
             Atualizar meus dados pessoais
         </div>

@@ -1,12 +1,12 @@
 {% load static %}
-<header class="header header-sticky mb-4 app-header navbar">
-        <a class="navbar-brand" href="#" style="height: 55px">
-        </a>
-
-    <hr class="horizontal dark my-3">
+<header class=" mb-4 app-header navbar" style="background-color: #004672;">
+        <a class="navbar-brand" href="#"
+           style="height: 55px; background-color: #004672;"></a> <span style="margin-left:-74%">
+    <h4 class="text-white">FINANS </h4>
+</span>
     <ul class="nav navbar-nav ml-auto ml-sm-auto ms-3">
         {% if user.is_authenticated %}
-        <p class="mb-0 d-none d-lg-block">Bem-vindo(a) <strong>{{ user.first_name|capfirst }}</strong></p>
+        <p class="mb-0 d-none d-lg-block text-white">Bem-vindo(a) <strong>{{ user.first_name|capfirst }}</strong></p>
         {% endif %}
         <li class="nav-item dropdown col-md-3 col-lg-2">
             <a class="nav-link py-0" data-toggle="dropdown" href="#" role="button" aria-haspopup="true"

@@ -6,7 +6,6 @@
         border-radius: 80px;
     }
 </style>
-
 <form action="" method="GET">
     <div class="d-flex align-items-center justify-content-between mx-5">
         <div>
@@ -36,14 +35,14 @@
 <div class="mx-5">{% include 'base/messages.html' %}</div>
 <div class="card mx-5">
     <div class="card-body">
-        <div class="table-responsive">
-            <table class="table table-hover table-sm text-center table-bordered">
+            <table   class="table display nowrap dataTableStyle"
+             data-order='[[ 1, "asc" ]]' data-page-length='10'>
             <thead class="table-light">
             <tr>
                 <th scope="col">Código</th>
-                <th scope="col">Banco</th>
-                <th scope="col">Descrição</th>
-                <th scope="col">Saldo</th>
+                <th scope="col" >Banco</th>
+                <th scope="col" data-class-name="priority">Descrição</th>
+                <th scope="col">Saldo Atual</th>
                 <th scope="col">Conta Principal</th>
                 <th scope="col">Tipo da Conta</th>
                 <th scope="col">Ações</th>
@@ -65,8 +64,13 @@
                 {% endif %}
             </td>
             <td>
-               {{ acc.amount|format_value }}
+                {% for balance in calculate_individual_account_balances %}
+                    {% if balance.account == acc.description %}
+                        {{ balance.balance|format_value }}
+                    {% endif %}
+                {% endfor %}
             </td>
+
 
             <td>{% if acc.main %}
                 <span class="badge text-bg-success">Sim</span>
@@ -92,13 +96,27 @@
             Não há registros
         </div>
             {% endfor %}
+
             </tbody>
+            <td colspan="8"
+                data-toggle="tooltip" data-placement="top" title="Este valor é a soma de todos os saldos das contas cadastradas.">
+                Total: {{get_total_account_balance|format_value}}
+            </td>
+
         </table>
     </div>
     </div>
-</div>
     {% if bank_account_list %}
-    <div class="col-md-12"> {% include 'base/pagination.html' with page=bank_account_list %}</div>
+    <div class="col-md-12">
+        {% include 'base/pagination.html' with page=bank_account_list %}
+    </div>
     {% endif %}
+
+
+
+
 </body>
+
+
+
 </html>

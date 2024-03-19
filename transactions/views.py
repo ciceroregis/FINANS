@@ -58,6 +58,8 @@ def monthly_balance(request):
 @login_required
 @require_GET
 def list_transactions(request):
+    installments_list = []
+    installment = None
     today = date.today()  # a data atual como uma variável de contexto para o modelo
     search = request.GET.get("search")
     transactions = _get_transactions(request.user, search)
@@ -66,32 +68,40 @@ def list_transactions(request):
         for trans in transactions
         if not trans.paid and trans.date_transaction <= today
     ]
-    request.session["pending_transactions"] = [
-        trans.description for trans in pending_transactions
-    ]
-    paginator = Paginator(transactions, 10)
-    page = request.GET.get("page", 1)
-    transactions = paginator.get_page(page)
+
+    for trans in transactions:
+        installments = calculate_installments(
+            value=trans.value, total=trans.total_installments
+        )
+        if installments.get('noInstallments'):
+            installment = trans.value
+        else:
+            installment = installments.get('installment_value')
+        installments_list.append(installment)
+
     context = {
-        "list_transactions": transactions,
+        "list_transactions": list(zip(transactions, installments_list)),
         "today": today,
         "pending_transactions": pending_transactions,
         "notifications": notifications(request),
         "incomes": incomes_card(request),
         "expenses": expenses_card(request),
         "balance": monthly_balance(request),
+        "installment": installment,
     }
     return render(request, "list_transactions.html", context)
 
 
 def _get_transactions(user, search):
     if search:
-        return Transactions.objects.filter(
+        tr = Transactions.objects.filter(
             Q(user=user, description__icontains=search)
             | Q(user=user, accounts__bank__name__icontains=search)
             | Q(user=user, value__icontains=search)
             | Q(user=user, paid__icontains=search)
         )
+
+        return tr
     else:
         return Transactions.objects.filter(user=user).all().order_by("description")
 

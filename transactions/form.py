@@ -23,7 +23,7 @@ class TransactionForm(forms.ModelForm):
         widget=forms.TextInput(
             attrs={"class": "form-control ",
                    "placeholder": "Informe o valor da conta",
-                   "onkeypress": "$(this).mask('#,##0.00', {reverse: true})"}),
+                }),
         required=False,
     )
 

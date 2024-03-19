@@ -33,7 +33,7 @@ class AccountForm(forms.ModelForm):
     amount = forms.CharField(
         widget=forms.TextInput(attrs={"class": "form-control ",
                                       "placeholder": "Informa o valor inicial da conta",
-                                      "onkeypress": "$(this).mask('#,##0.00', {reverse: true})"}),
+                                      }),
         required=False,
     )
 

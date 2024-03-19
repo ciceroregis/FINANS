@@ -38,7 +38,7 @@ class Accounts(models.Model):
         verbose_name = 'Conta'
         verbose_name_plural = 'Contas'
 
-    amount = models.CharField(max_length=200, blank=True, verbose_name='Saldo Bancário', default=0.0)
+    amount = models.FloatField(blank=True, verbose_name='Saldo Bancário', default=0.0)
     archived = models.BooleanField(default=False, verbose_name='Arquivado')
     bank = models.ForeignKey(Banks, on_delete=models.DO_NOTHING, null=True, blank=True, verbose_name='Banco')
     canceled = models.BooleanField(default=False, verbose_name='Cancelado')

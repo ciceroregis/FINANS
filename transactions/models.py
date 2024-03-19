@@ -60,7 +60,7 @@ class Transactions(models.Model):
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='Data de Criação')
     updated_at = models.DateTimeField(auto_now=True, verbose_name='Data de Atualização')
     user = models.ForeignKey(User, on_delete=models.PROTECT, blank=True, verbose_name='Usuário')
-    value = models.CharField(max_length=200, null=False, blank=True, verbose_name='Valor')
+    value = models.FloatField(default=0.0, null=False, blank=True, verbose_name='Valor')
 
     def __str__(self):
         if self.description is not None:

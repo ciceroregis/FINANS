@@ -15,8 +15,7 @@ def add_css_classes_if_invalid(field, css_classes):
 
 @register.filter
 def format_value(val):
-    float_val = float(val)
-    formatted_value = 'R$ {:,.2f}'.format(float_val).replace(',', ' ').replace('.', ',').replace(' ', '.').replace(
+    formatted_value = 'R$ {:,.2f}'.format(val).replace(',', ' ').replace('.', ',').replace(' ', '.').replace(
         'R$.', 'R$ ')
     return formatted_value
 
