@@ -50,37 +50,32 @@
 
   // calendar component
   $(function () {
-    $.datetimepicker.setLocale('pt-BR');
-    $('#datetimepicker').datetimepicker({
-      timepicker: false,
-      format: 'd/m/Y',
-    });
-  });
+      // Configura o componente de calendário
+      $.datetimepicker.setLocale('pt-BR');
+      $('#datetimepicker').datetimepicker({
+        timepicker: false,
+        format: 'd/m/Y',
+      });
 
-  // search input database
-  $(function () {
-    // Obtem a referência da tabela lista de lançamentos e da coluna de data
-    const table = document.getElementById('table');
-    const dateColumn = 6; // Suponha que a coluna de data seja a terceira coluna
+      // Obtém a referência da tabela e da coluna de data
+      const table = document.getElementById('table');
+      const dateColumn = 6; // Índice da coluna de data
 
-    // Adiciona um evento de input a um elemento de entrada
-    const input = document.getElementById('date');
-    $(input).mask('99/99/9999');
-    input.addEventListener('change', function () {
-      const filterText = input.value.toLowerCase();
-      const rows = table.rows;
-      for (let i = 1; i < rows.length; i++) {
-        // Começa em 1 para ignorar a linha de cabeçalho
-        const row = rows[i];
-        const dateValue = row.cells[dateColumn].textContent.toLowerCase();
-        if (dateValue.includes(filterText)) {
-          row.style.display = 'table-row';
-        } else {
-          row.style.display = 'none';
-        }
-      }
+      // Adiciona um evento de mudança ao campo de entrada de data
+      $('#datetimepicker').change(function () {
+        const filterText = $(this).val().toLowerCase();
+
+        // Itera sobre as linhas da tabela, começando da segunda linha (índice 1) para ignorar o cabeçalho
+        $(table).find('tbody tr').each(function () {
+          const dateValue = $(this).find('td').eq(dateColumn).text().toLowerCase();
+          if (dateValue.includes(filterText)) {
+            $(this).show(); // Exibe a linha se o valor da coluna de data incluir o texto de filtro
+          } else {
+            $(this).hide(); // Oculta a linha caso contrário
+          }
+        });
+      });
     });
-  });
 
   // select repeat input
   document.addEventListener('DOMContentLoaded', function () {
@@ -303,5 +298,6 @@
      responsive: true,
      searching: false,
    });
+
 </script>
 {% block script %} {% endblock %}

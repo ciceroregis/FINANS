@@ -11,9 +11,9 @@ environ.Env.read_env(os.path.join(BASE_DIR, 'core\.env'))
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'e70c-2804-56c-21cd-7700-5878-6929-8418-3b31.ngrok-free.app']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', '8e02-2804-8aa4-3394-4800-d88-c8cd-837b-46d5.ngrok-free.app']
 CSRF_TRUSTED_ORIGINS = ['http://localhost:85', 'http://127.0.0.1',
-                        'https://e70c-2804-56c-21cd-7700-5878-6929-8418-3b31.ngrok-free.app']
+                        'https://8e02-2804-8aa4-3394-4800-d88-c8cd-837b-46d5.ngrok-free.app']
 
 # Application definition
 INSTALLED_APPS = [
