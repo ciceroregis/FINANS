@@ -4,14 +4,14 @@ from django.urls import reverse_lazy
 import environ
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-SECRET_KEY = 'n&*9=_1x&$rmbxi))vr#vu+o=uc7ehc^idfzo%o3yf9@$_0dbn'
+SECRET_KEY = os.getenv("SECRET_KEY")
 
 environ.Env.read_env(os.path.join(BASE_DIR, 'core\.env'))
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', '8e02-2804-8aa4-3394-4800-d88-c8cd-837b-46d5.ngrok-free.app']
+ALLOWED_HOSTS = ['*']
 CSRF_TRUSTED_ORIGINS = ['http://localhost:85', 'http://127.0.0.1',
                         'https://8e02-2804-8aa4-3394-4800-d88-c8cd-837b-46d5.ngrok-free.app']
 
@@ -43,6 +43,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    "whitenoise.middleware.WhiteNoiseMiddleware",
 ]
 
 ROOT_URLCONF = 'core.urls'
@@ -69,14 +70,21 @@ WSGI_APPLICATION = 'core.wsgi.application'
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
 # Database
+#DATABASES = {
+#    'default': {
+#        'ENGINE': 'django.db.backends.mysql',
+##        'NAME': os.getenv("DB_NAME"),
+#        'USER': os.getenv('DB_USER'),
+#        'PASSWORD': os.getenv('DB_PASSWORD'),
+#        'HOST': os.getenv('DB_HOST'),
+#        'PORT': os.getenv('DB_PORT'),
+#    }
+#}
+
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': os.getenv("DB_NAME"),
-        'USER': os.getenv('DB_USER'),
-        'PASSWORD': os.getenv('DB_PASSWORD'),
-        'HOST': os.getenv('DB_HOST'),
-        'PORT': os.getenv('DB_PORT'),
+    "default": {
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": "mydatabase",
     }
 }
 
@@ -127,6 +135,7 @@ LOGIN_REDIRECT_URL = reverse_lazy("home")
 LOGOUT_REDIRECT_URL = reverse_lazy("login")
 
 DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
+STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 MESSAGE_TAGS = {
     constants.DEBUG: 'alert-info',
